@@ -1,0 +1,11 @@
+package ParentHiveApp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ParentHive {
+    public static void main(String[] args) {
+            SpringApplication.run(ParentHive.class, args);
+    }
+}

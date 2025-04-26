@@ -1,0 +1,54 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Roboto Mono';
+}
+
+.sidebar {
+    width: 15%;
+    background-color: #fff3c8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 10px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.sidebar .nav-link {
+    color: #272119;
+    text-decoration: none;
+}
+
+.sidebar .nav-link:hover {
+    color: #804205;
+}
+
+.main-content {
+    margin-left: 15%;
+    width: 85%;
+    height: 100%;
+}
+
+.topbar {
+    background-color: #ffd37b;
+    padding: 10px;
+    margin-left: 15%;
+    width: 85%;
+}
+
+.footer {
+    background-color: #272119;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer span {
+    font-size: 12px;
+}
