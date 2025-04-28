@@ -12,8 +12,44 @@
 <div th:replace="fragments :: sidebar"></div>
 <!-- Main Content -->
 <div class="main-content" style="padding: 20px; margin-left: 15%;">
-    <h1>This is Create a Post !</h1>
-    <p>Make your first post.</p>
+    <h1>New post</h1>
+    <p>@parent123</p>
+
+    <div class="container mt-4">
+
+        <!-- Category Dropdown -->
+        <div class="mb-3">
+            <label for="category" class="form-label">Select Category</label>
+            <select class="form-select" id="category" required>
+                <option selected disabled value="0">Newborn</option>
+                <option value="1">Toddler</option>
+                <option value="2">Child</option>
+                <option value="3">Teenager</option>
+                <option value="4">Young Adult</option>
+                <option value="5">Adult</option>
+                <option value="6">Special Needs</option>
+            </select>
+        </div>
+
+        <!-- Post Title -->
+        <div class="mb-3">
+            <label for="postTitle" class="form-label">Post Title</label>
+            <input type="text" class="form-control" id="postTitle" placeholder="Enter your post title" required>
+        </div>
+
+        <!-- Post Content -->
+        <div class="mb-3">
+            <label for="postContent" class="form-label">Post Content</label>
+            <textarea class="form-control" id="postContent" rows="6" placeholder="Write your post..." required></textarea>
+        </div>
+
+        <!-- Post Button -->
+        <button type="submit" class="btn" style="background-color: #fcc907;">Post</button>
+
+    </div>
+
+
+    <div class="empty-div"></div>
 </div>
 
 <!-- Footer -->
