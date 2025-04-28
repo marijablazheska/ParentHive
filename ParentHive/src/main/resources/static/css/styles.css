@@ -52,3 +52,63 @@ body, html {
 .footer span {
     font-size: 12px;
 }
+
+/* Post card styling start*/
+
+.Post{
+    display: block;
+    background-color: #804205;
+    max-width: 90vw;
+    max-height: 100%;
+    margin-bottom: 4vh;
+    border: 10px solid rgba(255, 243, 200, 0.78);
+    border-top: 0;
+    border-radius: 30px;
+}
+
+.Post-Title{
+    font-size: x-large;
+    max-height: 100%;
+    padding: 1%;
+    color: black;
+}
+
+.Post-Body{
+    font-size: large;
+    max-height: 100%;
+    padding: 1%;
+    color: white;
+}
+
+.Post-Interactions {
+    display: flex;
+    justify-content: end;
+    margin-right: 3vw;
+    align-items: center;
+}
+
+.Interaction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.Interaction i {
+    font-size: x-large;
+}
+
+.Interaction span {
+    font-size: x-large;
+    color: black;
+}
+
+.Post-Interactions p {
+    font-size: x-large;
+    margin: 20px;
+    color: white;
+    width: 7vw;
+}
+
+
+/* Post card styling end*/
