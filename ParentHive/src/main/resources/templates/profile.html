@@ -16,8 +16,106 @@
 
 <!-- Main content -->
 <div class="main-content" style="padding: 20px; margin-left: 15%;">
-    <h1>My Profile</h1>
-    <p>This is your account profile page.</p>
+    <div class="profile-card text-center">
+        <img src="https://media.istockphoto.com/id/1192313124/photo/pensive-customer-thinking-over-special-offer.jpg?s=2048x2048&w=is&k=20&c=U4VMXH2DwXC0Cqvto9BGQtxiPxoD1yz_zk7WxpRhUjc=" class="profile-picture" alt="Profile Picture">
+        <div class="profile-info">
+            <h5>@parent123</h5>
+        </div>
+    </div>
+    <div class="make-post-btn text-center mb-5">
+        <a th:href="@{/createpost}" class="btn custom-post-btn">Make a Post</a>
+    </div>
+    <div class="posts-list">
+
+        <div class="Post">
+            <div class="Post-Title">
+                <p>@parent123 Toddler toys</p>
+            </div>
+            <div class="Post-Body">
+                <p >Any recommendations for toddler friendly toys?</p>
+            </div>
+            <div class="Post-Interactions">
+                <div class="Interaction">
+                    <i class="fa-solid fa-up-long"></i>
+                    <span>0</span>
+                </div>
+                <div class="Interaction">
+                    <i class="fa-solid fa-down-long"></i>
+                    <span>0</span>
+                </div>
+                <div class="Interaction">
+                    <i class="fa-solid fa-comment"></i>
+                    <span>0</span>
+                </div>
+                <div class="Interaction">
+                    <i class="fa-solid fa-reply"></i>
+                    <span>0</span>
+                </div>
+                <p>#Toddler</p>
+            </div>
+        </div>
+
+        <div class="Post">
+            <div class="Post-Title">
+                <p>@parent123 How to help my toddler with bedtime routines?</p>
+            </div>
+            <div class="Post-Body">
+                <p >I'm having a hard time getting my 3-year-old to sleep on time. Any tips from experienced parents?</p>
+            </div>
+            <div class="Post-Interactions">
+                <div class="Interaction">
+                    <i class="fa-solid fa-up-long"></i>
+                    <span>43</span>
+                </div>
+                <div class="Interaction">
+                    <i class="fa-solid fa-down-long"></i>
+                    <span>3</span>
+                </div>
+                <div class="Interaction">
+                    <i class="fa-solid fa-comment"></i>
+                    <span>55</span>
+                </div>
+                <div class="Interaction">
+                    <i class="fa-solid fa-reply"></i>
+                    <span>1</span>
+                </div>
+                <p>#Toddler</p>
+            </div>
+        </div>
+
+        <div class="Post">
+            <div class="Post-Title">
+                <p>@parent123 My toddler refuses solid foods?</p>
+            </div>
+            <div class="Post-Body">
+                <p >My toddler will only eat foods if they resemble liquids. Even though it's the same food, he just refuses solids.
+                    He really needs to adjust to solids, it's good for his jaw development. What do I do?</p>
+            </div>
+            <div class="Post-Interactions">
+                <div class="Interaction">
+                    <i class="fa-solid fa-up-long"></i>
+                    <span>99</span>
+                </div>
+                <div class="Interaction">
+                    <i class="fa-solid fa-down-long"></i>
+                    <span>6</span>
+                </div>
+                <div class="Interaction">
+                    <i class="fa-solid fa-comment"></i>
+                    <span>223</span>
+                </div>
+                <div class="Interaction">
+                    <i class="fa-solid fa-reply"></i>
+                    <span>1</span>
+                </div>
+                <p>#Toddler</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="empty-div"></div>
+
 </div>
 
 <!-- Footer -->

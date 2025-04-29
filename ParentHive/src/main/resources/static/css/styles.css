@@ -3,6 +3,9 @@ body, html {
     padding: 0;
     height: 100%;
     font-family: 'Roboto Mono';
+
+    /*display: flex;*/
+    /*flex-direction: column;*/
 }
 
 .sidebar {
@@ -30,6 +33,11 @@ body, html {
     margin-left: 15%;
     width: 85%;
     height: 100%;
+    /*flex: 1;*/
+}
+
+.empty-div{
+    height: 5%;
 }
 
 .topbar {
@@ -40,30 +48,33 @@ body, html {
 }
 
 .footer {
-    background-color: #272119;
+    background-color: rgba(39,33,25,0.5);
     color: #fff;
     padding: 10px 0;
     text-align: center;
-    position: relative;
+    position: fixed;
     bottom: 0;
+    height: 5%;
     width: 100%;
 }
 
 .footer span {
     font-size: 12px;
+    color: rgba(255, 255, 255, 0.5)
 }
 
 /* Post card styling start*/
 
 .Post{
     display: block;
-    background-color: #804205;
-    max-width: 90vw;
+    background-color: #c08345;
     max-height: 100%;
-    margin-bottom: 4vh;
-    border: 10px solid rgba(255, 243, 200, 0.78);
+    width: 92%;
+    border: 10px solid rgba(255, 243, 200, 0.5);
     border-top: 0;
     border-radius: 30px;
+
+    margin: 4vh auto;   /* <- This centers it horizontally */
 }
 
 .Post-Title{
@@ -110,5 +121,51 @@ body, html {
     width: 7vw;
 }
 
-
 /* Post card styling end*/
+
+/*Profile page styling also uses the post card styling on mutual elements*/
+.profile-card {
+    width: 92%;
+    margin: 0 auto 20px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding: 20px;
+    background: linear-gradient(to bottom, #fff3c8 0%, #ffffff 100%);
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.profile-info h5 {
+    margin-bottom: 10px;
+}
+
+.make-post-btn {
+    margin-top:60px;
+    text-align: center;
+}
+
+.custom-post-btn {
+    background-color: rgba(252,201,7,0.8);
+    border: none;
+    color: #272119;
+    font-weight: bold;
+    height: 100%;
+    width: 40%;
+}
+
+.custom-post-btn:hover {
+    background-color: #e6b800;
+    color: #272119;
+}
+
+.posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

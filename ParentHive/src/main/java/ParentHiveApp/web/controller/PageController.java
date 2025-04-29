@@ -15,10 +15,14 @@ public class PageController {
     public String profile() {
         return "profile"; // will load resources/templates/profile.html
     }
-
     @GetMapping("/help")
     public String help() {
         return "help"; // will load resources/templates/help.html
+    }
+
+    @GetMapping("/createpost")
+    public String createPost() {
+        return "createpost"; // will load resources/templates/createpost.html
     }
 
     @GetMapping("/post")
