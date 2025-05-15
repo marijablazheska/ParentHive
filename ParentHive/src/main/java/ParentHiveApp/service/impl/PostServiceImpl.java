@@ -1,7 +1,7 @@
 package ParentHiveApp.service.impl;
 
 import ParentHiveApp.model.Post;
-import ParentHiveApp.model.Reply;
+import ParentHiveApp.model.User;
 import ParentHiveApp.repository.jpa.PostRepositoryJpa;
 import ParentHiveApp.repository.jpa.ReplyRepositoryJpa;
 import ParentHiveApp.service.PostService;
@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -38,8 +39,8 @@ public class PostServiceImpl implements PostService {
     }
     @Transactional
     @Override
-    public Post createPost(String title, String content, String category) {
-        Post newPost = new Post(title, content, category);
+    public Post createPost(String title, String content, String category, Optional<User> user) {
+        Post newPost = new Post(title, content, category, user.get());
         postRepositoryJpa.save(newPost);
 
         return newPost;

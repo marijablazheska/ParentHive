@@ -39,14 +39,15 @@ public class Post {
 //    @ElementCollection
 //    private List<String> category = new ArrayList<>();
 
-    public Post() {
+    public Post(){
 
     }
 
-    public Post(String title, String content, String category) {
+    public Post(String title, String content, String category, User user) {
         this.title = title;
         this.content = content;
         this.category = category;
+        this.user = user;
     }
 
     public String getTitle() {
