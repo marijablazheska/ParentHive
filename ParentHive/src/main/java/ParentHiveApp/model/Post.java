@@ -28,20 +28,24 @@ public class Post {
     // #############
     private String title;
     private String content;
-    private Integer upvote;
-    private Integer downvote;
-    private Integer repost;
+    private Integer upvote = 0;
+    private Integer downvote = 0;
+    private Integer repost = 0;
     @OneToMany(mappedBy = "Post", fetch = FetchType.EAGER)
     private List<Reply> replies = new ArrayList<>();
-    @ElementCollection
-    private List<String> category = new ArrayList<>();
+    private String category;
+//    @ElementCollection
+//    private List<String> category = new ArrayList<>();
 
     public Post() {
 
     }
 
-
-
+    public Post(String title, String content, String category) {
+        this.title = title;
+        this.content = content;
+        this.category = category;
+    }
 }
 
 
