@@ -20,12 +20,14 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
-    private String Username;
+    private Long id;
+    private String username;
+    private String password;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Post> posts;
     @ElementCollection
     private List<Long> SavedPosts; // Posle baraj po id
     @ElementCollection
     private List<Long> LikedPosts; // Posle baraj po id
+    private String role = "ROLE_USER";
 }

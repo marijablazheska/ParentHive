@@ -1,9 +1,11 @@
 package ParentHiveApp.config;
 
+import ParentHiveApp.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,12 +25,15 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
+    private final CustomUserDetailsService userDetailsService;
 //    private final CustomUsernamePasswordAuthenticationProvider authProvider;
 //    , CustomUsernamePasswordAuthenticationProvider authProvider
 
-    public WebSecurityConfig(PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(PasswordEncoder passwordEncoder, CustomUserDetailsService userDetailsService) {
         this.passwordEncoder = passwordEncoder;
+        this.userDetailsService = userDetailsService;
 //        this.authProvider = authProvider;
+
     }
 
     @Bean
@@ -40,20 +45,20 @@ public class WebSecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/songs", "/Artist", "/assets/**", "/register")
+                        .requestMatchers("/", "/assets/**", "/register", "/css/**")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
                 .formLogin((form) -> form
-//                        .loginPage("/login")
+                        .loginPage("/login")
                                 .permitAll()
                                 .failureUrl("/login?error=BadCredentials")
                                 .defaultSuccessUrl("/home", true)
                 )
                 .logout((logout) -> logout
-//                        .logoutUrl("/logout")
+                        .logoutUrl("/logout")
                                 .clearAuthentication(true)
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID")
@@ -66,30 +71,36 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    // In Memory Authentication
+//     In Memory Authentication
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+////        UserDetails user1 = User.builder()
+////                .username("user")
+////                .password(passwordEncoder.encode("123"))
+////                .roles("USER")
+////                .build();
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password(passwordEncoder.encode("admin"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(admin);
+//    }
+
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user1 = User.builder()
-                .username("user")
-                .password(passwordEncoder.encode("123"))
-                .roles("USER")
-                .build();
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user1, admin);
+    public AuthenticationManager authManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
-
 //    @Bean
 //    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-//        AuthenticationManagerBuilder authenticationManagerBuilder =
-//                http.getSharedObject(AuthenticationManagerBuilder.class);
-////        authenticationManagerBuilder.authenticationProvider(authProvider);
-//        return authenticationManagerBuilder.build();
+//        AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+//        authBuilder
+//                .userDetailsService(userDetailsService)
+//                .passwordEncoder(passwordEncoder);
+//        return authBuilder.build();
 //    }
+
 }
 
 
