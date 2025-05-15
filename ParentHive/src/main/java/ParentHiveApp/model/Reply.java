@@ -1,9 +1,6 @@
 package ParentHiveApp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 //class Reply{
@@ -18,8 +15,13 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
-    // TODO UserId
-    // #############
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
 
     public Reply(){
 

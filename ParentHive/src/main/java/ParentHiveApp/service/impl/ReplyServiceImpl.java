@@ -21,7 +21,7 @@ public class ReplyServiceImpl implements ReplyService {
     public Reply findById(long id) {
         return replyRepositoryJpa.findById(id);
     }
-//    TODO
+
     @Override
     public List<Reply> listAllRepliesById(Long postId) {
         return replyRepositoryJpa.findByPostId(postId);
