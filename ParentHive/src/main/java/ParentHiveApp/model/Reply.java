@@ -15,6 +15,8 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String content;
+    private Integer upvote = 0;
+    private Integer downvote = 0;
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;

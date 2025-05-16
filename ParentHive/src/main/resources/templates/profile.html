@@ -41,22 +41,44 @@
                 <p th:text="${post.content}"></p>
             </div>
             <div class="Post-Interactions">
+                <!-- Upvote -->
                 <div class="Interaction">
-                    <i class="fa-solid fa-up-long"></i>
-                    <span th:text="${post.upvote}">0</span>
+                    <form th:action="@{'/posts/' + ${post.id} + '/upvote'}" method="post">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-up-long"></i>
+                            <span th:text="${post.upvote}">0</span>
+                        </button>
+                    </form>
                 </div>
+
+                <!-- Downvote -->
                 <div class="Interaction">
-                    <i class="fa-solid fa-down-long"></i>
-                    <span th:text="${post.downvote}">0</span>
+                    <form th:action="@{'/posts/' + ${post.id} + '/downvote'}" method="post">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-down-long"></i>
+                            <span th:text="${post.downvote}">0</span>
+                        </button>
+                    </form>
                 </div>
+
+                <!-- Comment (not a form, just a link) -->
                 <div class="Interaction">
-                    <i class="fa-solid fa-comment"></i>
-                    <span th:text="${#lists.size(post.replies)}">0</span>
+                    <a th:href="@{'/posts/' + ${post.id}}" class="Interaction-Button">
+                        <i class="fa-solid fa-comment"></i>
+                        <span th:text="${#lists.size(post.replies)}">0</span>
+                    </a>
                 </div>
+
+                <!-- Repost -->
                 <div class="Interaction">
-                    <i class="fa-solid fa-reply"></i>
-                    <span th:text="${post.repost}">0</span>
+                    <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-reply"></i>
+                            <span th:text="${post.repost}">0</span>
+                        </button>
+                    </form>
                 </div>
+
                 <p th:text="'#' + ${post.category}">#Category</p>
             </div>
         </div>

@@ -15,5 +15,8 @@ public interface PostService {
     Post updatePost(Long id, String title, String content, String category); // Save
     void delete(Long id); // Delete
     List<Post> listPosts();
+    void upvotePost(Long postId, Optional<User> user);
+    void downvotePost(Long postId, Optional<User> user);
+    void repostPost(Long postId, Optional<User> user);
 
 }

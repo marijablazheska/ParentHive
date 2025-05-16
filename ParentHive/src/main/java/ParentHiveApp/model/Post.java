@@ -50,6 +50,16 @@ public class Post {
         this.user = user;
     }
 
+    public void incrementUpVote() {
+        upvote++;
+    }
+    public void incrementDownVote() {
+        downvote++;
+    }
+    public void incrementRepost() {
+        repost++;
+    }
+
     public String getTitle() {
         return title;
     }

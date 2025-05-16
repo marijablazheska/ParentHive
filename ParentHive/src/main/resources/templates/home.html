@@ -10,14 +10,14 @@
 <body style="margin:0px;padding:0px;">
 
 <!-- Sidebar -->
-<div th:replace="fragments :: sidebar"></div>
+<div th:insert="~{fragments :: sidebar}"></div>
 
 <!-- Topbar -->
-<div th:replace="fragments :: topbar"></div>
+<div th:insert="~{fragments :: topbar}"></div>
 
 <!-- Main Content -->
 <div class="main-content" style="padding: 20px; margin-left: 15%;">
-    <div class="posts-list">
+        <div class="posts-list">
         <div th:each="post : ${posts}" class="Post">
             <div class="Post-Title">
                 <p th:text="'@' + ${post.user.username} + ' ' + ${post.title}"></p>
@@ -26,115 +26,52 @@
                 <p th:text="${post.content}"></p>
             </div>
             <div class="Post-Interactions">
+
+                <!-- Upvote -->
                 <div class="Interaction">
-                    <i class="fa-solid fa-up-long"></i>
-                    <span th:text="${post.upvote}">0</span>
+                    <form th:action="@{'/posts/' + ${post.id} + '/upvote'}" method="post">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-up-long"></i>
+                            <span th:text="${post.upvote}">0</span>
+                        </button>
+                    </form>
                 </div>
+
+                <!-- Downvote -->
                 <div class="Interaction">
-                    <i class="fa-solid fa-down-long"></i>
-                    <span th:text="${post.downvote}">0</span>
+                    <form th:action="@{'/posts/' + ${post.id} + '/downvote'}" method="post">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-down-long"></i>
+                            <span th:text="${post.downvote}">0</span>
+                        </button>
+                    </form>
                 </div>
+
+                <!-- Comment (not a form, just a link) -->
                 <div class="Interaction">
-                    <i class="fa-solid fa-comment"></i>
-                    <span th:text="${#lists.size(post.replies)}">0</span>
+                    <a th:href="@{'/posts/' + ${post.id}}" class="Interaction-Button">
+                        <i class="fa-solid fa-comment"></i>
+                        <span th:text="${#lists.size(post.replies)}">0</span>
+                    </a>
                 </div>
+
+                <!-- Repost -->
                 <div class="Interaction">
-                    <i class="fa-solid fa-reply"></i>
-                    <span th:text="${post.repost}">0</span>
+                    <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-reply"></i>
+                            <span th:text="${post.repost}">0</span>
+                        </button>
+                    </form>
                 </div>
+
                 <p th:text="'#' + ${post.category}">#Category</p>
             </div>
         </div>
     </div>
 
     <div class="empty-div"></div>
-<!--    <div class="Post">-->
-<!--        <div class="Post-Title">-->
-<!--            <p>@parent123 How to help my toddler with bedtime routines?</p>-->
-<!--        </div>-->
-<!--        <div class="Post-Body">-->
-<!--            <p >I'm having a hard time getting my 3-year-old to sleep on time. Any tips from experienced parents?</p>-->
-<!--        </div>-->
-<!--        <div class="Post-Interactions">-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-up-long"></i>-->
-<!--                <span>43</span>-->
-<!--            </div>-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-down-long"></i>-->
-<!--                <span>3</span>-->
-<!--            </div>-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-comment"></i>-->
-<!--                <span>55</span>-->
-<!--            </div>-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-reply"></i>-->
-<!--                <span>1</span>-->
-<!--            </div>-->
-<!--            <p>#Toddler</p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--&lt;!&ndash;    2nd&ndash;&gt;-->
-<!--    <div class="Post">-->
-<!--        <div class="Post-Title">-->
-<!--            <p>@parent456 My adult son won't look for a job</p>-->
-<!--        </div>-->
-<!--        <div class="Post-Body">-->
-<!--            <p>My adult son (36) came back to live with my husband and I. He used to have a job but no anymore. How do I motivate him to look for a job ( and once again move out )?</p>-->
-<!--        </div>-->
-<!--        <div class="Post-Interactions">-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-up-long"></i>-->
-<!--                <span>3</span>-->
-<!--            </div>-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-down-long"></i>-->
-<!--                <span>0</span>-->
-<!--            </div>-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-comment"></i>-->
-<!--                <span>1</span>-->
-<!--            </div>-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-reply"></i>-->
-<!--                <span>0</span>-->
-<!--            </div>-->
-<!--            <p>#Adult</p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--&lt;!&ndash;    3rd&ndash;&gt;-->
-<!--    <div class="Post">-->
-<!--        <div class="Post-Title">-->
-<!--            <p>@parent123 How to help my toddler with bedtime routines?</p>-->
-<!--        </div>-->
-<!--        <div class="Post-Body">-->
-<!--            <p >I'm having a hard time getting my 3-year-old to sleep on time. Any tips from experienced parents?</p>-->
-<!--        </div>-->
-<!--        <div class="Post-Interactions">-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-up-long"></i>-->
-<!--                <span>43</span>-->
-<!--            </div>-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-down-long"></i>-->
-<!--                <span>3</span>-->
-<!--            </div>-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-comment"></i>-->
-<!--                <span>55</span>-->
-<!--            </div>-->
-<!--            <div class="Interaction">-->
-<!--                <i class="fa-solid fa-reply"></i>-->
-<!--                <span>1</span>-->
-<!--            </div>-->
-<!--            <p>#Toddler</p>-->
-<!--        </div>-->
-<!--    </div>-->
 
-<!--    <div class="empty-div">-->
-
-<!--    </div>-->
 </div>
 
 <!-- Footer -->

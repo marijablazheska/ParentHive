@@ -114,6 +114,26 @@ body, html {
     color: black;
 }
 
+.Interaction form,
+.Interaction a,
+.Interaction button {
+    font-size: x-large;
+    color: black;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.Interaction form:hover,
+.Interaction a:hover{
+    background-color: grey;
+}
+
+
 .Post-Interactions p {
     font-size: x-large;
     margin: 20px;

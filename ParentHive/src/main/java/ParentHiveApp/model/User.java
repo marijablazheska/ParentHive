@@ -28,6 +28,14 @@ public class User {
     @ElementCollection
     private List<Long> SavedPosts; // Posle baraj po id
     @ElementCollection
-    private List<Long> LikedPosts; // Posle baraj po id
+    private List<Long> upVotedPosts; // Posle baraj po id
+    @ElementCollection
+    private List<Long> downVotedPosts; // Posle baraj po id
+    @ElementCollection
+    private List<Long> repostedPosts; // Posle baraj po id
+    @ElementCollection
+    private List<Long> upVotedReplies; // Posle baraj po id
+    @ElementCollection
+    private List<Long> downVotedReplies; // Posle baraj po id
     private String role = "ROLE_USER";
 }
