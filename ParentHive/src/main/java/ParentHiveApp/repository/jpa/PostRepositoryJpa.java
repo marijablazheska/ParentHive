@@ -10,8 +10,9 @@ import java.util.List;
 @Repository
 public interface PostRepositoryJpa extends JpaRepository<Post, Long> {
     Post getPostById(Long id);
-    Post getPostByTitle(String title);
-    Post getPostByTitleIgnoreCaseAndCategoryIgnoreCase(String title, String category);
+    List<Post> findAllByTitleContainingIgnoreCase(String title);
+    List<Post> findAllByCategoryContainingIgnoreCase(String category);
+    List<Post> findAllByTitleContainingIgnoreCaseAndCategoryContainingIgnoreCase(String title, String category);
 //    Post getPostByTitleAndCategory(String title, List<String> category);
 
 }

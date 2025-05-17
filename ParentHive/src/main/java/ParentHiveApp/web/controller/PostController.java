@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class PostController {
 //    TODO
@@ -23,6 +25,29 @@ public class PostController {
         this.postService = postService;
         this.userService = userService;
         this.replyService = replyService;
+    }
+    // search
+    @GetMapping("/posts")
+    public String getPostsPage(@RequestParam(required = false) String error,
+                               @RequestParam(required = false) String search,
+                               @RequestParam(required = false) String category,
+                               Model model){
+        if(error != null && !error.isEmpty()) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
+
+        if (search != null && !category.equals("")) {
+            model.addAttribute("posts", postService.getPostByTitleAndCategory(search, category));
+        } else if(search != null && category.isEmpty()){
+            model.addAttribute("posts", postService.getPostByTitle(search));
+        } else if(search == null && !category.isEmpty()){
+            model.addAttribute("posts", postService.getPostByCategory(category));
+        }else {
+            model.addAttribute("posts", postService.listPosts());
+        }
+
+        return "home";
     }
 
     @PostMapping("/createpost/add")

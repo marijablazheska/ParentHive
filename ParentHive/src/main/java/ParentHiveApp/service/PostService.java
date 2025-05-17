@@ -9,8 +9,9 @@ import java.util.Optional;
 public interface PostService {
 //    TODO
     Post getPostById(Long id);
-    Post getPostByTitle(String title);
-    Post getPostByTitleAndCategory(String title, String category);
+    List<Post> getPostByTitle(String title);
+    List<Post> getPostByCategory(String category);
+    List<Post> getPostByTitleAndCategory(String title, String category);
     Post createPost(String title, String content, String category, Optional<User> user); // Save
     Post updatePost(Long id, String title, String content, String category); // Save
     void delete(Long id); // Delete

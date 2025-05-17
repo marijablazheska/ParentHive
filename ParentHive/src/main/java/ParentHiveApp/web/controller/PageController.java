@@ -1,7 +1,6 @@
 package ParentHiveApp.web.controller;
 
 import ParentHiveApp.model.User;
-import ParentHiveApp.repository.jpa.UserRepositoryJpa;
 import ParentHiveApp.service.PostService;
 import ParentHiveApp.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -15,12 +14,10 @@ import java.util.Optional;
 public class PageController {
 
     private final UserService userService;
-    private final UserRepositoryJpa userRepositoryJpa;
     private final PostService postService;
 
-    public PageController(UserService userService, UserRepositoryJpa userRepositoryJpa, PostService postService) {
+    public PageController(UserService userService, PostService postService) {
         this.userService = userService;
-        this.userRepositoryJpa = userRepositoryJpa;
         this.postService = postService;
     }
 
@@ -33,7 +30,7 @@ public class PageController {
 
     @GetMapping("/profile")
     public String profile(Model model) {
-        Optional<User> user = userRepositoryJpa.findById(userService.getCurrentUserId());
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
         model.addAttribute("username", user.get().getUsername());
 //      list posts from user
         model.addAttribute("posts", user.get().getPosts());

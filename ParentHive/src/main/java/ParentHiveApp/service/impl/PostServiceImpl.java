@@ -32,13 +32,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getPostByTitle(String title) {
-        return postRepositoryJpa.getPostByTitle(title);
+    public List<Post> getPostByTitle(String title) {
+        return postRepositoryJpa.findAllByTitleContainingIgnoreCase(title);
     }
 
     @Override
-    public Post getPostByTitleAndCategory(String title, String category) {
-        return postRepositoryJpa.getPostByTitleIgnoreCaseAndCategoryIgnoreCase(title, category);
+    public List<Post> getPostByCategory(String category) {
+        return postRepositoryJpa.findAllByCategoryContainingIgnoreCase(category);
+    }
+
+    @Override
+    public List<Post> getPostByTitleAndCategory(String title, String category) {
+        return postRepositoryJpa.findAllByTitleContainingIgnoreCaseAndCategoryContainingIgnoreCase(title, category);
     }
     @Transactional
     @Override

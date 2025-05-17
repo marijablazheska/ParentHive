@@ -7,16 +7,22 @@
 <!-- TOPBAR FRAGMENT -->
 <div th:fragment="topbar">
     <div class="topbar d-flex align-items-center justify-content-center">
-        <input class="form-control me-3" type="search" placeholder="Search..." aria-label="Search" style="width:50%; color:#272119; background-color: rgba(255, 255, 255, 0.8)">
-        <select class="form-select" style="width: 20%; color:#272119; background-color: rgba(255, 255, 255, 0.8)">
-            <option selected value="0">Newborn</option>
-            <option value="1">Toddler</option>
-            <option value="2">Child</option>
-            <option value="3">Teenager</option>
-            <option value="4">Young Adult</option>
-            <option value="5">Adult</option>
-            <option value="6">Special Needs</option>
-        </select>
+        <form class="topbar d-flex align-items-center justify-content-center" action="/posts" method="GET">
+            <div class="form-group d-flex justify-content-around w-100">
+                <input class="form-control me-3" name="search" type="search" placeholder="Search..." aria-label="Search" style="width:100%; color:#272119; background-color: rgba(255, 255, 255, 0.8)">
+                <select name="category" class="form-select" style="width: 25%; color:#272119; background-color: rgba(255, 255, 255, 0.8)">
+                    <option selected value="">None</option>
+                    <option value="Newborn">Newborn</option>
+                    <option value="Toddler">Toddler</option>
+                    <option value="Child">Child</option>
+                    <option value="Teenager">Teenager</option>
+                    <option value="Young Adult">Young Adult</option>
+                    <option value="Adult">Adult</option>
+                    <option value="Special Needs">Special Needs</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary m-2">Search</button>
+        </form>
     </div>
 </div>
 
