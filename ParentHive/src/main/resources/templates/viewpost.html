@@ -6,6 +6,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto Mono' rel='stylesheet'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 <body>
 <!-- Sidebar -->
@@ -14,98 +15,96 @@
 <div class="container-fluid main-content" style="padding: 20px; margin-left: 15%;">
     <div class="container-fluid card-body flex-row col-11 Post text-light mt-0 col-5 p-5 pb-0">
         <div class="d-flex flex-row mt-3 mb-4">
-            <h1 class="col-9">How to help my toddler with bedtime routines?</h1>
+            <h1 class="col-9" th:text="${post.title}">Post Title</h1>
             <div class="col-1"></div>
             <div class="col-2">
-                <p>@parent123</p>
-                <p>#Toddler</p>
+                <p th:text="'@' + ${post.user.username}">@username</p>
+                <p th:text="'#' + ${post.category}">#Category</p>
             </div>
         </div>
 
-        <h5 class="mt-3 mb-5">I'm having a hard time getting my 3-year-old to sleep on time. Any tips from experienced parents?</h5>
-        <p>Hi everyone,</p>
-        <p>I'm reaching out because I'm really struggling with bedtime routines for my 3-year-old. Lately, it's been taking forever to get them settled down for the night — even when I start the routine early. Some nights, they’re running around full of energy, and other nights, they get upset and cry when it’s time to go to bed.</p>
-        <p>Even with a routine, it feels like they resist sleep almost every night. I've tried being consistent, making the room darker, playing soft music, and even giving a 5-minute warning before bedtime, but it doesn't seem to help much.</p>
-        <p>Any advice or tips would be really appreciated.</p>
-        <p>I know every child is different, but hearing what worked for others might give me some new ideas to try.</p>
-        <p>Thanks so much!</p>
+<!--        <h5 class="mt-3 mb-5" th:text="${post.subtitle}">Subtitle or short description</h5>-->
+<!--        <p>Hi everyone,</p>-->
+        <p th:utext="${post.content}">Post content here.</p>
+<!--        <p>I know every child is different, but hearing what worked for others might give me some new ideas to try.</p>-->
+<!--        <p>Thanks so much!</p>-->
 
         <div class="Post-Interactions">
+            <!-- Upvote -->
             <div class="Interaction text-primary">
-                <i style="font-size: 20px" class="fa-solid fa-up-long"></i>
-                <span style="font-size: 20px" class="text-primary">43</span>
+                <form th:action="@{'/posts/' + ${post.id} + '/upvote'}" method="post">
+                    <button type="submit" class="Interaction-Button text-primary" style="font-size: 20px">
+                        <i class="fa-solid fa-up-long"></i>
+                        <span th:text="${post.upvote}">0</span>
+                    </button>
+                </form>
             </div>
+
+            <!-- Downvote -->
             <div class="Interaction">
-                <i style="font-size: 20px" class="fa-solid fa-down-long"></i>
-                <span style="font-size: 20px" class="text-light">3</span>
+                <form th:action="@{'/posts/' + ${post.id} + '/downvote'}" method="post">
+                    <button type="submit" class="Interaction-Button text-light" style="font-size: 20px">
+                        <i class="fa-solid fa-down-long"></i>
+                        <span th:text="${post.downvote}">0</span>
+                    </button>
+                </form>
             </div>
+
+            <!-- Comment (this time it's a form !) -->
             <div class="Interaction">
-                <i style="font-size: 20px" class="fa-solid fa-comment"></i>
-                <span style="font-size: 20px" class="text-light">55</span>
+                <a th:href="@{'/posts/' + 'addReply/' + ${post.id}}" class="Interaction-Button">
+                    <i class="fa-solid fa-comment"></i>
+                    <span th:text="${#lists.size(post.replies)}">0</span>
+                </a>
             </div>
+
+            <!-- Repost -->
             <div class="Interaction">
-                <i style="font-size: 20px" class="fa-solid fa-reply"></i>
-                <span style="font-size: 20px" class="text-light">1</span>
+                <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
+                    <button type="submit" class="Interaction-Button text-light" style="font-size: 20px">
+                        <i class="fa-solid fa-reply"></i>
+                        <span th:text="${post.repost}">0</span>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
     <h1 class="m-5 mb-3">Replies:</h1>
-    <div class="m-0 d-flex container-fluid flex-row">
+    <div th:each="reply : ${replies}" class="m-0 d-flex container-fluid flex-row">
         <div class="ms-5 mt-0"></div>
         <div class="card-body col-10 Post text-light m-1 ms-5 col-8 p-2 ps-3 pe-3 pb-3 flex-column">
-            <p>@parent334</p>
-            <p>I can totally relate — my twins were the exact same at that age. One thing that helped us was adding a "quiet time" activity before bath time,
-                like puzzles or coloring. It helped bring their energy down more gradually instead of switching straight from play to bedtime.
-                Also, we found that a consistent phrase like "It's sleepy time now" every single night helped signal that it was truly time to wind down.
-                Hang in there — it does get easier, I promise! 💛
-            </p>
+            <!-- Username -->
+            <p th:text="'@' + ${reply.user.username}">@username</p>
+
+            <!-- Reply Content -->
+            <p th:text="${reply.content}">Reply content goes here.</p>
+
+            <!-- Interactions -->
             <div class="Post-Interactions mb-0">
+                <!-- Upvote -->
                 <div class="Interaction">
-                    <i style="font-size: 15px" class="fa-solid fa-up-long"></i>
-                    <span style="font-size: 15px" class="text-light">9</span>
+                    <form th:action="@{'/replies/' + ${reply.id} + '/upvote'}" method="post">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-up-long"></i>
+                            <span th:text="${reply.upvote}">0</span>
+                        </button>
+                    </form>
                 </div>
-                <div class="Interaction text-danger">
-                    <i style="font-size: 15px" class="fa-solid fa-down-long"></i>
-                    <span style="font-size: 15px" class="text-danger">2</span>
-                </div>
+
+                <!-- Downvote -->
                 <div class="Interaction">
-                    <i style="font-size: 15px" class="fa-solid fa-comment"></i>
-                    <span style="font-size: 15px" class="text-light">0</span>
+                    <form th:action="@{'/replies/' + ${reply.id} + '/downvote'}" method="post">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-down-long"></i>
+                            <span th:text="${reply.downvote}">0</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="m-0 d-flex container-fluid flex-row">
-        <div class="ms-5 mt-0"></div>
-        <div class="card-body col-10 Post text-light m-1 ms-5 col-8 p-2 ps-3 pe-3 pb-3 flex-column">
-            <p>@parent420</p>
-            <p>I know how frustrating this can be.
-                My son (who has sensory needs) needed a really predictable routine with zero surprises at bedtime.
-                We even made a little visual schedule (pictures of bath, PJs, brushing teeth, etc.) he could follow.
-                It took a few weeks, but once he knew exactly what was happening next, the resistance went way down.
-                Even kids without special needs sometimes feel more secure with visual steps! Hope this idea helps you too.
-                Wishing you restful nights ahead! 🌙
-
-
-            </p>
-            <div class="Post-Interactions mb-0">
-                <div class="Interaction">
-                    <i style="font-size: 15px" class="fa-solid fa-up-long"></i>
-                    <span style="font-size: 15px" class="text-light">12</span>
-                </div>
-                <div class="Interaction">
-                    <i style="font-size: 15px" class="fa-solid fa-down-long"></i>
-                    <span style="font-size: 15px" class="text-light">1</span>
-                </div>
-                <div class="Interaction">
-                    <i style="font-size: 15px" class="fa-solid fa-comment"></i>
-                    <span style="font-size: 15px" class="text-light">1</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
 <!-- Footer -->
 <div th:replace="fragments :: footer"></div>
+</div>
 </body>
 </html>

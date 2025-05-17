@@ -13,7 +13,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="database.db" uuid="f24cfd0a-51a1-43e8-af02-e792789cfc89">
+    <data-source source="LOCAL" name="database.db" uuid="cdd7c88e-8df9-414f-b52d-59326584598c">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>

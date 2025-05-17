@@ -50,9 +50,6 @@ public class PageController {
         return "createpost"; // will load resources/templates/createpost.html
     }
 
-    @GetMapping("/post")
-    public String post() {
-        return "viewpost"; // will load resources/templates/home.html
-    }
+
 }
 

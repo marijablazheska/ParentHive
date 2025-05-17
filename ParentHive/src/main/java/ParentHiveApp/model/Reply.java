@@ -17,11 +17,11 @@ public class Reply {
     private String content;
     private Integer upvote = 0;
     private Integer downvote = 0;
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
 
@@ -29,4 +29,9 @@ public class Reply {
 
     }
 
+    public Reply(String content, User user, Post post) {
+        this.content = content;
+        this.user = user;
+        this.post = post;
+    }
 }
