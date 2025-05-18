@@ -13,14 +13,16 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="database.db" uuid="cdd7c88e-8df9-414f-b52d-59326584598c">
-      <driver-ref>sqlite.xerial</driver-ref>
+    <data-source source="LOCAL" name="sqlserver@parenthivesqlserver.database.windows.net" uuid="35e74e33-966c-4305-8562-8ddcdda3f2dd">
+      <driver-ref>azure.ms</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:./database.db</jdbc-url>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://parenthivesqlserver.database.windows.net:1433;encrypt=true;trustServerCertificate=false</jdbc-url>
       <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
+        <property name="com.intellij.clouds.kubernetes.db.container.port" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>

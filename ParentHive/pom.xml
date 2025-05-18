@@ -84,6 +84,12 @@
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
             <version>3.1.1.RELEASE</version>
         </dependency>
+<!--        server sql-->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
 <!--        <dependency>-->
 <!--            <groupId>com.h2database</groupId>-->
