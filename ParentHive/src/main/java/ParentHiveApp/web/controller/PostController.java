@@ -62,6 +62,23 @@ public class PostController {
 
         return "redirect:/profile";
     }
+//  Get report page
+    @GetMapping("/posts/{postId}/report")
+    public String reportPostPage(@PathVariable Long postId, Model model){
+        Long userId = userService.getCurrentUserId();
+        model.addAttribute("postId", postId);
+
+        return "reportPost.html";
+    }
+
+    //  Send report page
+    @PostMapping ("/posts/report/{postId}")
+    public String reportPost(@PathVariable Long postId){
+        Long userId = userService.getCurrentUserId();
+//      TODO Implement functionality
+        return "redirect:/posts/" + postId;
+    }
+
 //    View post
     @GetMapping("/posts/{postId}")
     public String post(@PathVariable Long postId, Model model) {

@@ -65,6 +65,15 @@
                     </form>
                 </div>
 
+                <!-- Report -->
+                <div class="Interaction">
+                    <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="GET">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-flag"></i>
+                        </button>
+                    </form>
+                </div>
+
                 <p th:text="'#' + ${post.category}">#Category</p>
             </div>
         </div>
