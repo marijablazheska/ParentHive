@@ -18,7 +18,7 @@
 <!-- Main Content -->
 <div class="main-content" style="padding: 20px; margin-left: 15%;">
         <div class="posts-list">
-        <div th:each="post : ${posts}" th:class="${post.postLevel == 2} ? 'PostProf' : (${post.postLevel == 1} ? 'PostStudy' : 'Post')">
+        <div th:each="post : ${posts}" th:class="${post.post_level == 2} ? 'PostProf' : (${post.post_level == 1} ? 'PostStudy' : 'Post')">
             <div class="Post-Title">
                 <p th:text="'@' + ${post.user.username} + ' ' + ${post.title}"></p>
             </div>

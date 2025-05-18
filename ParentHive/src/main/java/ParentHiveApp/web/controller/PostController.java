@@ -31,20 +31,40 @@ public class PostController {
     public String getPostsPage(@RequestParam(required = false) String error,
                                @RequestParam(required = false) String search,
                                @RequestParam(required = false) String category,
+                               @RequestParam(required = false) String sortby,
                                Model model){
         if(error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
 
+
         if (search != null && !category.equals("")) {
-            model.addAttribute("posts", postService.getPostByTitleAndCategory(search, category));
+            if(!sortby.equals("")){
+                model.addAttribute("posts", postService.sortBy(sortby, postService.getPostByTitleAndCategory(search, category)));
+            } else {
+                model.addAttribute("posts", postService.getPostByTitleAndCategory(search, category));
+            }
+
         } else if(search != null && category.isEmpty()){
-            model.addAttribute("posts", postService.getPostByTitle(search));
+            if(!sortby.equals("")){
+                model.addAttribute("posts", postService.sortBy(sortby, postService.getPostByTitle(search)));
+            } else {
+                model.addAttribute("posts", postService.getPostByTitle(search));
+            }
         } else if(search == null && !category.isEmpty()){
-            model.addAttribute("posts", postService.getPostByCategory(category));
+            if(!sortby.equals("")){
+                model.addAttribute("posts", postService.sortBy(sortby, postService.getPostByCategory(category)));
+            } else {
+                model.addAttribute("posts", postService.getPostByCategory(category));
+            }
+
         }else {
-            model.addAttribute("posts", postService.listPosts());
+            if(!sortby.equals("")){
+                model.addAttribute("posts", postService.sortBy(sortby, postService.listPosts()));
+            } else {
+                model.addAttribute("posts", postService.listPosts());
+            }
         }
 
         return "home";

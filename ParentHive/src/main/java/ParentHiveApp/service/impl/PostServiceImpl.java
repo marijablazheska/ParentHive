@@ -9,8 +9,11 @@ import ParentHiveApp.service.PostService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -45,6 +48,34 @@ public class PostServiceImpl implements PostService {
     public List<Post> getPostByTitleAndCategory(String title, String category) {
         return postRepositoryJpa.findAllByTitleContainingIgnoreCaseAndCategoryContainingIgnoreCase(title, category);
     }
+
+    @Override
+    public List<Post> sortBy(String sortBy, List<Post> posts) {
+
+        Comparator<Post> comparator = Comparator.comparing(Post::getDate);
+
+
+        if(sortBy.equals("Newest")){
+            posts.sort(comparator.reversed());
+        } else if(sortBy.equals("Oldest")){
+            posts.sort(comparator);
+        } else if(sortBy.equals("Upvotes")){
+            return posts.stream().sorted(Comparator.comparingInt(Post::getUpvote).reversed()).toList();
+        } else if (sortBy.equals("Downvotes")){
+            return posts.stream().sorted(Comparator.comparingInt(Post::getDownvote).reversed()).toList();
+        } else if(sortBy.equals("Replies")){
+            posts = posts.stream()
+                    .sorted(Comparator.comparingInt(Post::PostRepliesCount).reversed())
+                    .collect(Collectors.toList());
+        } else if(sortBy.equals("Repost")){
+            posts = posts.stream()
+                    .sorted(Comparator.comparingInt(Post::getRepost).reversed())
+                    .collect(Collectors.toList());
+        }
+
+        return posts;
+    }
+
     @Transactional
     @Override
     public Post createPost(String title, String content, String category, Optional<User> user) {

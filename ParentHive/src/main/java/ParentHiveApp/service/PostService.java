@@ -12,6 +12,7 @@ public interface PostService {
     List<Post> getPostByTitle(String title);
     List<Post> getPostByCategory(String category);
     List<Post> getPostByTitleAndCategory(String title, String category);
+    List<Post> sortBy(String sortBy, List<Post> posts);
     Post createPost(String title, String content, String category, Optional<User> user); // Save
     Post updatePost(Long id, String title, String content, String category); // Save
     void delete(Long id); // Delete

@@ -40,7 +40,7 @@ public class Post {
     private List<Reply> replies = new ArrayList<>();
     private String category;
     private LocalDate date;
-    private Integer postLevel;
+    private Integer post_level;
 //    @ElementCollection
 //    private List<String> category = new ArrayList<>();
 
@@ -56,14 +56,17 @@ public class Post {
         this.date = LocalDateTime.now().toLocalDate();
         if(content.contains("cochrane.org") || content.contains("embs.org") || content.contains("pubmed.ncbi.nlm.nih.gov")) {
             if(user.getProfessional()) {
-                this.postLevel = 2;
+                this.post_level = 2;
             } else {
-                this.postLevel = 1;
+                this.post_level = 1;
             }
         } else {
-            this.postLevel = 0;
+            this.post_level = 0;
         }
     }
+
+    public int PostRepliesCount(){return replies.size();}
+
 
     public void incrementUpVote() {
         upvote++;

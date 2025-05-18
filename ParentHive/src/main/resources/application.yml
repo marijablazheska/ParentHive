@@ -1,4 +1,4 @@
-# Comment below when testing and uncomment app properties
+## Comment below when testing and uncomment app properties
 spring:
   datasource:
     url: jdbc:sqlserver://parenthivesqlserver.database.windows.net:1433;database=ParentHiveDataBase;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;

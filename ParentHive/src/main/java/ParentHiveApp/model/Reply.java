@@ -23,7 +23,7 @@ public class Reply {
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
-    private Integer postLevel;
+    private Integer post_level = 0;
 
 
     public Reply(){
@@ -37,12 +37,12 @@ public class Reply {
 
         if(content.contains("cochrane.org") || content.contains("embs.org") || content.contains("pubmed.ncbi.nlm.nih.gov")) {
             if(user.getProfessional()) {
-                this.postLevel = 2;
+                this.post_level = 2;
             } else {
-                this.postLevel = 1;
+                this.post_level = 1;
             }
         } else {
-            this.postLevel = 0;
+            this.post_level = 0;
         }
     }
 
