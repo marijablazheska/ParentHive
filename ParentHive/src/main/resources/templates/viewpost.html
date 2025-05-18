@@ -69,6 +69,17 @@
                     </button>
                 </form>
             </div>
+
+            <!-- Report -->
+            <div class="Interaction">
+                <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="GET">
+                    <button type="submit" class="Interaction-Button">
+                        <i class="fa-solid fa-flag"></i>
+                    </button>
+                </form>
+            </div>
+
+
         </div>
     </div>
     <h1 class="m-5 mb-3">Replies:</h1>
@@ -100,6 +111,15 @@
                         <button type="submit" class="Interaction-Button">
                             <i class="fa-solid fa-down-long"></i>
                             <span th:text="${reply.downvote}">0</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Report -->
+                <div class="Interaction">
+                    <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="GET">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-flag"></i>
                         </button>
                     </form>
                 </div>

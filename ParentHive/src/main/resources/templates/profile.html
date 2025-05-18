@@ -79,6 +79,15 @@
                     </form>
                 </div>
 
+                <!-- Report -->
+                <div class="Interaction">
+                    <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="post">
+                        <button type="submit" class="Interaction-Button">
+                            <i class="fa-solid fa-flag"></i>
+                        </button>
+                    </form>
+                </div>
+
                 <p th:text="'#' + ${post.category}">#Category</p>
             </div>
         </div>
@@ -86,101 +95,7 @@
 
     <div class="empty-div"></div>
 
-
-
-    <!--    <div class="posts-list">-->
-
-<!--        <div class="Post">-->
-<!--            <div class="Post-Title">-->
-<!--                <p>@parent123 Toddler toys</p>-->
-<!--            </div>-->
-<!--            <div class="Post-Body">-->
-<!--                <p >Any recommendations for toddler friendly toys?</p>-->
-<!--            </div>-->
-<!--            <div class="Post-Interactions">-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-up-long"></i>-->
-<!--                    <span>0</span>-->
-<!--                </div>-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-down-long"></i>-->
-<!--                    <span>0</span>-->
-<!--                </div>-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-comment"></i>-->
-<!--                    <span>0</span>-->
-<!--                </div>-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-reply"></i>-->
-<!--                    <span>0</span>-->
-<!--                </div>-->
-<!--                <p>#Toddler</p>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="Post">-->
-<!--            <div class="Post-Title">-->
-<!--                <p>@parent123 How to help my toddler with bedtime routines?</p>-->
-<!--            </div>-->
-<!--            <div class="Post-Body">-->
-<!--                <p >I'm having a hard time getting my 3-year-old to sleep on time. Any tips from experienced parents?</p>-->
-<!--            </div>-->
-<!--            <div class="Post-Interactions">-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-up-long"></i>-->
-<!--                    <span>43</span>-->
-<!--                </div>-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-down-long"></i>-->
-<!--                    <span>3</span>-->
-<!--                </div>-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-comment"></i>-->
-<!--                    <span>55</span>-->
-<!--                </div>-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-reply"></i>-->
-<!--                    <span>1</span>-->
-<!--                </div>-->
-<!--                <p>#Toddler</p>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="Post">-->
-<!--            <div class="Post-Title">-->
-<!--                <p>@parent123 My toddler refuses solid foods?</p>-->
-<!--            </div>-->
-<!--            <div class="Post-Body">-->
-<!--                <p >My toddler will only eat foods if they resemble liquids. Even though it's the same food, he just refuses solids.-->
-<!--                    He really needs to adjust to solids, it's good for his jaw development. What do I do?</p>-->
-<!--            </div>-->
-<!--            <div class="Post-Interactions">-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-up-long"></i>-->
-<!--                    <span>99</span>-->
-<!--                </div>-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-down-long"></i>-->
-<!--                    <span>6</span>-->
-<!--                </div>-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-comment"></i>-->
-<!--                    <span>223</span>-->
-<!--                </div>-->
-<!--                <div class="Interaction">-->
-<!--                    <i class="fa-solid fa-reply"></i>-->
-<!--                    <span>1</span>-->
-<!--                </div>-->
-<!--                <p>#Toddler</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-
-<!--    <div class="empty-div"></div>-->
-
-<!--</div>-->
-
+</div>
 <!-- Footer -->
 <div th:replace="fragments :: footer"></div>
 
