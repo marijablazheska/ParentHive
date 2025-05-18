@@ -3,7 +3,10 @@ package ParentHiveApp.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //Class Post{
@@ -36,6 +39,8 @@ public class Post {
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
     private List<Reply> replies = new ArrayList<>();
     private String category;
+    private LocalDate date;
+    private Integer postLevel;
 //    @ElementCollection
 //    private List<String> category = new ArrayList<>();
 
@@ -48,6 +53,16 @@ public class Post {
         this.content = content;
         this.category = category;
         this.user = user;
+        this.date = LocalDateTime.now().toLocalDate();
+        if(content.contains("cochrane.org") || content.contains("embs.org") || content.contains("pubmed.ncbi.nlm.nih.gov")) {
+            if(user.getProfessional()) {
+                this.postLevel = 2;
+            } else {
+                this.postLevel = 1;
+            }
+        } else {
+            this.postLevel = 0;
+        }
     }
 
     public void incrementUpVote() {

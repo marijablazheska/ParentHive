@@ -24,6 +24,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
+    private Boolean professional = false;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Post> posts;
     @ElementCollection
@@ -127,4 +128,8 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public Boolean getProfessional() { return professional; }
+
+    public void setProfessional(Boolean professional) { this.professional = professional; }
 }

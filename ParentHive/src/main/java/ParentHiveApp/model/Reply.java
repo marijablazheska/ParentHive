@@ -23,6 +23,7 @@ public class Reply {
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+    private Integer postLevel;
 
 
     public Reply(){
@@ -33,6 +34,16 @@ public class Reply {
         this.content = content;
         this.user = user;
         this.post = post;
+
+        if(content.contains("cochrane.org") || content.contains("embs.org") || content.contains("pubmed.ncbi.nlm.nih.gov")) {
+            if(user.getProfessional()) {
+                this.postLevel = 2;
+            } else {
+                this.postLevel = 1;
+            }
+        } else {
+            this.postLevel = 0;
+        }
     }
 
     public Long getId() {

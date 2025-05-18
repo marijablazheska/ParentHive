@@ -77,6 +77,30 @@ body, html {
     margin: 4vh auto;   /* <- This centers it horizontally */
 }
 
+.PostProf{
+    display: block;
+    background-color: #3f5bc9;
+    max-height: 100%;
+    width: 92%;
+    border: 10px solid rgba(41, 76, 140, 0.5);
+    border-top: 0;
+    border-radius: 30px;
+
+    margin: 4vh auto;   /* <- This centers it horizontally */
+}
+
+.PostStudy{
+    display: block;
+    background-color: #61d48b;
+    max-height: 100%;
+    width: 92%;
+    border: 10px solid rgba(68, 141, 102, 0.5);
+    border-top: 0;
+    border-radius: 30px;
+
+    margin: 4vh auto;   /* <- This centers it horizontally */
+}
+
 .Post-Title{
     font-size: x-large;
     max-height: 100%;

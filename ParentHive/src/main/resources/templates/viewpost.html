@@ -13,7 +13,9 @@
 <div th:replace="fragments :: sidebar"></div>
 <!-- Main Content -->
 <div class="container-fluid main-content" style="padding: 20px; margin-left: 15%;">
-    <div class="container-fluid card-body flex-row col-11 Post text-light mt-0 col-5 p-5 pb-0">
+
+    <div class="container-fluid flex-row col-11 Post text-light mt-0 col-5 p-5 pb-0"
+         th:classappend="${post.postLevel == 2} ? 'PostProf' : (${post.postLevel == 1} ? 'PostStudy' : 'Post')">
         <div class="d-flex flex-row mt-3 mb-4">
             <h1 class="col-9" th:text="${post.title}">Post Title</h1>
             <div class="col-1"></div>
@@ -72,7 +74,8 @@
     <h1 class="m-5 mb-3">Replies:</h1>
     <div th:each="reply : ${replies}" class="m-0 d-flex container-fluid flex-row">
         <div class="ms-5 mt-0"></div>
-        <div class="card-body col-10 Post text-light m-1 ms-5 col-8 p-2 ps-3 pe-3 pb-3 flex-column">
+        <div class="card-body col-10  text-light m-1 ms-5 col-8 p-2 ps-3 pe-3 pb-3 flex-column"
+             th:classappend="${reply.postLevel == 2} ? 'PostProf' : (${reply.postLevel == 1} ? 'PostStudy' : 'Post')">
             <!-- Username -->
             <p th:text="'@' + ${reply.user.username}">@username</p>
 
