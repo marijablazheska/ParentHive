@@ -149,6 +149,22 @@ public class Post {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Integer getPost_level() {
+        return post_level;
+    }
+
+    public void setPost_level(Integer post_level) {
+        this.post_level = post_level;
+    }
 }
 
 

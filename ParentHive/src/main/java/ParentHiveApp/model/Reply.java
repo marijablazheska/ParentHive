@@ -94,4 +94,12 @@ public class Reply {
     public void setPost(Post post) {
         this.post = post;
     }
+
+    public Integer getPost_level() {
+        return post_level;
+    }
+
+    public void setPost_level(Integer post_level) {
+        this.post_level = post_level;
+    }
 }
