@@ -60,6 +60,54 @@ public class Post {
         repost++;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Integer getUpvote() {
+        return upvote;
+    }
+
+    public void setUpvote(Integer upvote) {
+        this.upvote = upvote;
+    }
+
+    public Integer getDownvote() {
+        return downvote;
+    }
+
+    public void setDownvote(Integer downvote) {
+        this.downvote = downvote;
+    }
+
+    public Integer getRepost() {
+        return repost;
+    }
+
+    public void setRepost(Integer repost) {
+        this.repost = repost;
+    }
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
+    }
+
     public String getTitle() {
         return title;
     }
