@@ -14,6 +14,8 @@ public class Reply {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Lob
+    @Column(length = 10000)
     private String content;
     private Integer upvote = 0;
     private Integer downvote = 0;

@@ -32,6 +32,8 @@ public class Post {
     @JoinColumn(name = "user_id") //
     private User user;
     private String title;
+    @Lob
+    @Column(length = 10000)
     private String content;
     private Integer upvote = 0;
     private Integer downvote = 0;

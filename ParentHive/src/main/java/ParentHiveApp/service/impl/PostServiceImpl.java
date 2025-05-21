@@ -71,6 +71,10 @@ public class PostServiceImpl implements PostService {
             posts = posts.stream()
                     .sorted(Comparator.comparingInt(Post::getRepost).reversed())
                     .collect(Collectors.toList());
+        } else if(sortBy.equals("ProfessionalAdvice")){
+            posts = posts.stream()
+                    .sorted(Comparator.comparingInt(Post::getPost_level).reversed())
+                    .collect(Collectors.toList());
         }
 
         return posts;
