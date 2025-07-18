@@ -1,22 +1,29 @@
 package ParentHiveApp.web.controller;
 
+import ParentHiveApp.dto.UserRegistrationDto;
+import ParentHiveApp.model.Role;
 import ParentHiveApp.model.User;
-import ParentHiveApp.repository.jpa.UserRepositoryJpa;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import ParentHiveApp.service.UserService;
+
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+
+import ParentHiveApp.repository.jpa.UserRepositoryJpa;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 public class AuthController {
 
-    private final UserRepositoryJpa userRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public AuthController(UserRepositoryJpa userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private final UserService userService;
+    private final UserRepositoryJpa userRepositoryJpa;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -25,15 +32,38 @@ public class AuthController {
 
     @GetMapping("/register")
     public String registerForm(Model model) {
-        model.addAttribute("user", new User());
+        model.addAttribute("registrationForm", new UserRegistrationDto());
+        model.addAttribute("showVerificationModal", false);
         return "register";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return "redirect:/login";
+    public String register(@ModelAttribute("registrationForm") @Valid UserRegistrationDto userDto,
+                           BindingResult result,
+                           Model model) {
+        // Check if username or email already exists
+        if (userService.existsByUsername(userDto.getUsername())) {
+            result.rejectValue("username", null, "Username is already taken");
+        }
+        if (userService.existsByEmail(userDto.getEmail())) {
+            result.rejectValue("email", null, "Email is already registered");
+        }
+
+        if (result.hasErrors()) {
+            return "register"; // return back to the form with validation errors
+        }
+
+        // Map DTO to Entity
+        userService.registerUser(userDto);
+
+        // Redirect based on type
+        if(userDto.getSelectedRole().equals(Role.PROFESSIONAL)){
+            model.addAttribute("showVerificationModal", true); // signal Thymeleaf to show modal
+            return "register"; // return the register page with modal visible
+        }
+
+        model.addAttribute("showParentSuccessModal", true);
+        return "redirect:/register";
     }
 }
 
