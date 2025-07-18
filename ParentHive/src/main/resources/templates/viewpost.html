@@ -10,124 +10,38 @@
 </head>
 <body>
 <!-- Sidebar -->
-<div th:replace="fragments :: sidebar"></div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
 <!-- Main Content -->
-<div class="container-fluid main-content" style="padding: 20px; margin-left: 15%;">
+<div class="container-fluid main-content row" style="padding: 20px; margin-left: 15%;">
+    <div class="col-8">
+        <div th:replace="fragments/postbox :: postbox(${post}, ${false})"></div>
 
-    <div class="container-fluid flex-row col-11 text-light mt-0 col-5 p-5 pb-0"
-         th:classappend="${post.post_level == 2} ? ' PostProf' : (post.post_level == 1 ? ' PostStudy' : ' Post')">
-    <div class="d-flex flex-row mt-3 mb-4">
-            <h1 class="col-9" th:text="${post.title}">Post Title</h1>
-            <div class="col-1"></div>
-            <div class="col-2">
-                <p th:text="'@' + ${post.user.username}">@username</p>
-                <p th:text="'#' + ${post.category}">#Category</p>
+        <h2 class="m-5 mb-3 text-center text-secondary">Suggestions</h2>
+
+        <div class="card p-3 m-1">
+            <div class="container mt-4">
+                <form th:action="@{'/posts/addReply/' + ${postId}}" method="post">
+                    <!-- Reply Content -->
+                    <div class="mb-3">
+                        <textarea class="form-control" id="replyContent" name="Content" rows="6"
+                                  placeholder="Type here your wise suggestion" required></textarea>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-warning"><i class="far fa-comment stats-icon"></i> Suggest</button>
+                    </div>
+                </form>
             </div>
         </div>
-
-<!--        <h5 class="mt-3 mb-5" th:text="${post.subtitle}">Subtitle or short description</h5>-->
-<!--        <p>Hi everyone,</p>-->
-        <p th:utext="${post.content}">Post content here.</p>
-<!--        <p>I know every child is different, but hearing what worked for others might give me some new ideas to try.</p>-->
-<!--        <p>Thanks so much!</p>-->
-
-        <div class="Post-Interactions">
-            <!-- Upvote -->
-            <div class="Interaction text-primary">
-                <form th:action="@{'/posts/' + ${post.id} + '/upvote'}" method="post">
-                    <button type="submit" class="Interaction-Button text-primary" style="font-size: 20px">
-                        <i class="fa-solid fa-up-long"></i>
-                        <span th:text="${post.upvote}">0</span>
-                    </button>
-                </form>
-            </div>
-
-            <!-- Downvote -->
-            <div class="Interaction">
-                <form th:action="@{'/posts/' + ${post.id} + '/downvote'}" method="post">
-                    <button type="submit" class="Interaction-Button text-light" style="font-size: 20px">
-                        <i class="fa-solid fa-down-long"></i>
-                        <span th:text="${post.downvote}">0</span>
-                    </button>
-                </form>
-            </div>
-
-            <!-- Comment (this time it's a form !) -->
-            <div class="Interaction">
-                <a th:href="@{'/posts/' + 'addReply/' + ${post.id}}" class="Interaction-Button">
-                    <i class="fa-solid fa-comment"></i>
-                    <span th:text="${#lists.size(post.replies)}">0</span>
-                </a>
-            </div>
-
-            <!-- Repost -->
-            <div class="Interaction">
-                <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
-                    <button type="submit" class="Interaction-Button text-light" style="font-size: 20px">
-                        <i class="fa-solid fa-reply"></i>
-                        <span th:text="${post.repost}">0</span>
-                    </button>
-                </form>
-            </div>
-
-            <!-- Report -->
-            <div class="Interaction">
-                <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="GET">
-                    <button type="submit" class="Interaction-Button">
-                        <i class="fa-solid fa-flag"></i>
-                    </button>
-                </form>
-            </div>
-
-
+        <div class="m-3 mb-3" th:each="reply : ${replies}">
+            <div th:replace="fragments/postbox :: replybox(${reply})"></div>
         </div>
     </div>
-    <h1 class="m-5 mb-3">Replies:</h1>
-    <div th:each="reply : ${replies}" class="m-0 d-flex container-fluid flex-row">
-        <div class="ms-5 mt-0"></div>
-        <div class="card-body col-10 text-light m-1 ms-5 col-8 p-2 ps-3 pe-3 pb-3 flex-column"
-             th:classappend="${reply.post_level == 2} ? ' PostProf' : (${reply.post_level == 1} ? ' PostStudy' : ' Post')">
-        <!-- Username -->
-            <p th:text="'@' + ${reply.user.username}">@username</p>
-
-            <!-- Reply Content -->
-            <p th:text="${reply.content}">Reply content goes here.</p>
-
-            <!-- Interactions -->
-            <div class="Post-Interactions mb-0">
-                <!-- Upvote -->
-                <div class="Interaction">
-                    <form th:action="@{'/replies/' + ${reply.id} + '/upvote'}" method="post">
-                        <button type="submit" class="Interaction-Button">
-                            <i class="fa-solid fa-up-long"></i>
-                            <span th:text="${reply.upvote}">0</span>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Downvote -->
-                <div class="Interaction">
-                    <form th:action="@{'/replies/' + ${reply.id} + '/downvote'}" method="post">
-                        <button type="submit" class="Interaction-Button">
-                            <i class="fa-solid fa-down-long"></i>
-                            <span th:text="${reply.downvote}">0</span>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Report -->
-                <div class="Interaction">
-                    <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="GET">
-                        <button type="submit" class="Interaction-Button">
-                            <i class="fa-solid fa-flag"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <div class="col-3">
+        <div th:replace="fragments/misc-components :: userbox(${post.user})"></div>
     </div>
-<!-- Footer -->
-<div th:replace="fragments :: footer"></div>
 </div>
 </body>
 </html>

@@ -11,20 +11,17 @@
 <body>
 
 <!-- Sidebar -->
-<div th:replace="fragments :: sidebar"></div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
 
 <!-- Main Content -->
 <div class="main-content" style="padding: 20px; margin-left: 15%;">
-    <h1>Create a New Post</h1>
-    <p th:text="'@' + ${#authentication.name}">Logged-in user</p>
 
-    <div class="container mt-4">
+    <div class="card p-3 m-5">
         <form action="/createpost/add" method="post">
             <!-- Category Dropdown -->
             <div class="mb-3">
-                <label for="category" class="form-label">Select Category</label>
                 <select class="form-select" id="category" name="Category" required>
-                    <option disabled selected value="">Select category</option>
+                    <option disabled selected value="">Choose category</option>
                     <option value="Newborn">Newborn</option>
                     <option value="Toddler">Toddler</option>
                     <option value="Child">Child</option>
@@ -37,31 +34,24 @@
 
             <!-- Post Title -->
             <div class="mb-3">
-                <label for="postTitle" class="form-label">Post Title</label>
                 <input type="text" class="form-control" id="postTitle" name="Title"
-                       placeholder="Enter your post title" required>
+                       placeholder="Type attention-catching title" required>
             </div>
 
             <!-- Post Content -->
             <div class="mb-3">
-                <label for="postContent" class="form-label">Post Content</label>
                 <textarea class="form-control" id="postContent" name="Content" rows="6"
-                          placeholder="Write your post..." required></textarea>
+                          placeholder="Type your question" required></textarea>
             </div>
 
             <!-- Buttons -->
-            <div class="d-flex justify-content-start gap-2">
-                <button type="submit" class="btn" style="background-color: #fcc907;">Post</button>
-                <a href="javascript:history.back()" class="btn" style="background-color: #fcc907;">Cancel</a>
+            <div class="d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-warning"><i class="fas fa-comment stats-icon"></i> Post</button>
             </div>
         </form>
     </div>
-
     <div class="empty-div"></div>
 </div>
-
-<!-- Footer -->
-<div th:replace="fragments :: footer"></div>
 
 </body>
 </html>
