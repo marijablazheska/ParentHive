@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .text-orange {
+            color: orange;
+        }
+
+        .sidebar-link {
+            text-decoration: none;
+            color: #212529;
+            padding: 6px 12px;
+            border-radius: 5px;
+        }
+
+        .sidebar-link:hover {
+            background-color: #f8f9fa;
+        }
+
+        .active-link {
+            background-color: #fdf6f2;
+            border-left: 4px solid orange;
+            color: orange;
+            font-weight: 600;
+        }
+    </style>
+    <script>
+        function toggleTags() {
+            const container = document.getElementById("tagLinksContainer");
+            container.style.display = container.style.display === "none" ? "block" : "none";
+        }
+    </script>
+</head>
+<body>
+<div th:fragment="sidebar">
+    <div class="d-flex flex-column p-3" style="width: 350px; height: 100vh; background-color: white; border-right: 1px solid #eee;">
+
+        <!-- Search -->
+        <form th:action="@{/search}" method="get" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="keyword" class="form-control" placeholder="Search..." aria-label="Search">
+                <button class="btn btn-outline-secondary" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+
+        <!-- MENU Section -->
+        <div class="mb-4">
+            <small class="text-muted text-uppercase">Menu</small>
+            <div class="mt-2">
+
+                <!-- Home Link -->
+                <a th:href="@{/home}" class="d-flex align-items-center mb-2 sidebar-link active-link">
+                    <i class="bi bi-house-door me-2"></i>
+                    <span>Home</span>
+                </a>
+
+                <!-- Tags Toggle -->
+                <div class="d-flex align-items-center mb-2 sidebar-link" onclick="toggleTags()" style="cursor: pointer;">
+                    <i class="bi bi-tags me-2"></i>
+                    <span>Tags</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </div>
+
+                <!-- Tag Links (hidden by default) -->
+                <div id="tagLinksContainer" style="display: none;" class="ms-4">
+                    <a th:href="@{/tags(tag='newborn')}" class="d-block sidebar-link mb-1">Newborn</a>
+                    <a th:href="@{/tags(tag='toddler')}" class="d-block sidebar-link mb-1">Toddler</a>
+                    <a th:href="@{/tags(tag='child')}" class="d-block sidebar-link mb-1">Child</a>
+                    <a th:href="@{/tags(tag='teen')}" class="d-block sidebar-link mb-1">Teenager</a>
+                    <a th:href="@{/tags(tag='youngadult')}" class="d-block sidebar-link mb-1">Young-Adult</a>
+                    <a th:href="@{/tags(tag='adult')}" class="d-block sidebar-link mb-1">Adult</a>
+                    <a th:href="@{/tags(tag='specialneeds')}" class="d-block sidebar-link mb-1">Special Needs</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PERSONAL NAVIGATOR Section -->
+        <div>
+            <small class="text-muted text-uppercase">Personal Navigator</small>
+            <div class="mt-2">
+                <a th:href="@{/questions}" class="d-flex align-items-center mb-2 sidebar-link">
+                    <i class="bi bi-question-circle me-2"></i>
+                    <span>Your questions</span>
+                </a>
+                <a th:href="@{/echoes}" class="d-flex align-items-center mb-2 sidebar-link">
+                    <i class="bi bi-chat-dots me-2"></i>
+                    <span>Your echoes</span>
+                </a>
+                <a th:href="@{/beliefs}" class="d-flex align-items-center mb-2 sidebar-link">
+                    <i class="bi bi-heart me-2"></i>
+                    <span>Your bee-lieves</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

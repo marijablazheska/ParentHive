@@ -11,6 +11,10 @@ package ParentHiveApp.model;
 //}
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
@@ -22,9 +26,29 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
+    @Size(min = 6, max = 20)
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @NotBlank
+    @Email
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @NotBlank
+    @Size(min = 8)
+    @Column(nullable = false)
     private String password;
+
+    @Column(name = "is_Professional", nullable = false)
     private Boolean professional = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Post> posts;
     @ElementCollection
@@ -39,7 +63,8 @@ public class User {
     private List<Long> upVotedReplies; // Posle baraj po id
     @ElementCollection
     private List<Long> downVotedReplies; // Posle baraj po id
-    private String role = "ROLE_USER";
+
+    //---------------GETTERS AND SETTERS----------------//
 
     public Long getId() {
         return id;
@@ -121,13 +146,13 @@ public class User {
         this.downVotedReplies = downVotedReplies;
     }
 
-    public String getRole() {
-        return role;
-    }
+    public @NotBlank @Email String getEmail() { return email; }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+    public void setEmail(@NotBlank @Email String email) { this.email = email; }
+
+    public Role getRole() { return role;}
+
+    public void setRole(Role role) { this.role = role; }
 
     public Boolean getProfessional() { return professional; }
 
