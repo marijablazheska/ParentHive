@@ -11,7 +11,7 @@ public class ConditionalProfessionalCertificationValidator implements Constraint
     @Override
     public boolean isValid(UserRegistrationDto dto, ConstraintValidatorContext context) {
         // If role is PROFESSIONAL, certification file must be present
-        if (dto.getRole() == Role.PROFESSIONAL) {
+        if (Role.valueOf(dto.getSelectedRole()) == Role.PROFESSIONAL) {
             MultipartFile file = dto.getCertificationFile();
             String certification = dto.getCertification();
             if (file == null || file.isEmpty()&& (certification == null || certification.trim().isEmpty())) {

@@ -9,11 +9,10 @@
 </head>
 <body style="margin:0px;padding:0px;">
 
-<!-- Sidebar -->
-<div th:replace="fragments :: sidebar"></div>
-
 <!-- Topbar -->
-<div th:replace="fragments :: topbar"></div>
+<div th:replace="~{fragments/topbars :: topbar-guest}"></div>
+<!-- Sidebar -->
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
 <!-- Main content -->
 <div class="main-content" style="padding: 20px; margin-left: 15%;">
@@ -97,7 +96,7 @@
 
 </div>
 <!-- Footer -->
-<div th:replace="fragments :: footer"></div>
+<!--<div th:replace="fragments :: footer"></div>-->
 
 </body>
 </html>

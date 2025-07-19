@@ -63,7 +63,7 @@ public class AuthController {
         }
 
         model.addAttribute("showParentSuccessModal", true);
-        return "redirect:/register";
+        return "redirect:/login";
     }
 }
 
