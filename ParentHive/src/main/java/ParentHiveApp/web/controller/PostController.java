@@ -1,6 +1,7 @@
 package ParentHiveApp.web.controller;
 
 import ParentHiveApp.model.Post;
+import ParentHiveApp.model.Reply;
 import ParentHiveApp.model.User;
 import ParentHiveApp.repository.jpa.UserRepositoryJpa;
 import ParentHiveApp.service.PostService;
@@ -129,12 +130,12 @@ public class PostController {
     public String reportPost(@PathVariable Long postId){
         Long userId = userService.getCurrentUserId();
 //      TODO Implement functionality
-        return "redirect:/posts/" + postId;
+        return "redirect:/posts/" + postId + "?report=success";
     }
 
 //    View post
     @GetMapping("/posts/{postId}")
-    public String post(@PathVariable Long postId, Model model) {
+    public String post(@PathVariable Long postId, @RequestParam(required = false) String report, Model model) {
         Optional<User> user = userService.getUserById(userService.getCurrentUserId());
         user.ifPresent(userBap -> model.addAttribute("user", userBap));
 
@@ -146,6 +147,18 @@ public class PostController {
 
         model.addAttribute("post", post);
         model.addAttribute("replies", postService.getPostById(postId).getReplies());
+
+        // Add report message to model if present
+        if (report != null && !report.isEmpty()) {
+            if(report.equals("success")){
+                model.addAttribute("reportSuccess", true);
+                model.addAttribute("reportMessage", "Your report has been submitted successfully!");
+            } else {
+                model.addAttribute("reportSuccess", false);
+                model.addAttribute("reportMessage", "Your report has not been submitted error encountered, please retry!");
+            }
+
+        }
 
         return "viewpost.html"; // will load resources/templates/home.html
     }
@@ -190,6 +203,36 @@ public class PostController {
         this.replyService.createReply(Content, userService.getUserById(userId), postService.getPostById(postId));
 
         return "redirect:/posts/" + postId;
+    }
+
+    //    editReply form
+    @GetMapping("/replies/edit/{replyId}")
+    public String editReply(@PathVariable Long replyId, Model model) {
+//        Post post = postService.getPostById(postId);
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
+
+        model.addAttribute("reply", replyService.findById(replyId));
+
+        return "editReply.html"; // will load resources/templates/home.html
+    }
+
+    @PostMapping("/replies/edit/{replyId}")
+    public String editReply(@RequestParam String Content,
+                            @PathVariable Long replyId, Model model
+
+    ){
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
+
+        Reply reply = replyService.findById(replyId);
+        model.addAttribute("reply", reply);
+        if(reply.getUser().getId() == user.get().getId()){
+            this.replyService.updateReply(replyId, Content);
+        } else { return "redirect:/echoes?error=invalidRequest"; }
+
+
+        return "redirect:/echoes";
     }
 
     @PostMapping("/posts/{postId}/repost")

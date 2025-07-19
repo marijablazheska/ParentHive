@@ -28,6 +28,22 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
+    public Reply updateReply(Long id, String Content) {
+        Optional<Reply> oldReply = replyRepositoryJpa.findById(id);
+        Reply newReply = oldReply.orElseGet(Reply::new);
+
+        newReply.setContent(Content);
+
+        replyRepositoryJpa.save(newReply);
+        return newReply;
+    }
+
+    @Override
+    public void delete(long id) {
+        replyRepositoryJpa.deleteById(id);
+    }
+
+    @Override
     public List<Reply> listReplies() {
         return replyRepositoryJpa.findAll();
     }

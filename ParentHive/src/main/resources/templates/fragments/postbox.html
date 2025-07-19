@@ -84,6 +84,16 @@
                     </button>
                 </form>
             </div>
+
+            <!-- Edit -->
+            <div th:if="${post.getUser().getId() == user.getId()}" class="Interaction">
+                <form th:action="@{'/editPost/' + ${post.id}}" method="get">
+                    <button type="submit" class="Interaction-Button">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit</span>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -142,6 +152,16 @@
                 <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="GET">
                     <button type="submit" class="Interaction-Button">
                         <i class="fa-solid fa-flag"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Edit -->
+            <div th:if="${reply.getUser().getId() == user.getId()}" class="Interaction">
+                <form th:action="@{'/replies/edit/' + ${reply.id}}" method="get">
+                    <button type="submit" class="Interaction-Button">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit</span>
                     </button>
                 </form>
             </div>
