@@ -28,6 +28,11 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
+    public List<Reply> listReplies() {
+        return replyRepositoryJpa.findAll();
+    }
+
+    @Override
     public List<Reply> listAllRepliesById(Long postId) {
         return replyRepositoryJpa.findByPostId(postId);
     }

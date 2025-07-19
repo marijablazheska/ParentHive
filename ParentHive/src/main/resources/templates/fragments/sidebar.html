@@ -75,6 +75,12 @@
                     <a th:href="@{/tags(tag='adult')}" class="d-block sidebar-link mb-1">Adult</a>
                     <a th:href="@{/tags(tag='specialneeds')}" class="d-block sidebar-link mb-1">Special Needs</a>
                 </div>
+
+                <!-- Help Link -->
+                <a th:href="@{/help}" class="d-flex align-items-center mb-2 sidebar-link">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <span>Help</span>
+                </a>
             </div>
         </div>
 
@@ -93,6 +99,10 @@
                 <a th:href="@{/beliefs}" class="d-flex align-items-center mb-2 sidebar-link">
                     <i class="bi bi-heart me-2"></i>
                     <span>Your bee-lieves</span>
+                </a>
+                <a th:href="@{/reposts}" class="d-flex align-items-center mb-2 sidebar-link">
+                    <i class="bi bi-share me-2"></i>
+                    <span>Your reposts</span>
                 </a>
             </div>
         </div>

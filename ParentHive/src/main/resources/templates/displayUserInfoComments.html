@@ -26,10 +26,8 @@
 
     <!-- Main Content -->
     <div class="main-content" style="padding: 20px;">
-        <div class="posts-list">
-            <div th:each="post : ${posts}">
-                <div th:replace="fragments/postbox :: postbox(${post}, ${true})"></div>
-            </div>
+        <div class="m-3 mb-3" th:each="reply : ${replies}">
+            <div th:replace="fragments/postbox :: replybox(${reply})"></div>
         </div>
     </div>
 </div>

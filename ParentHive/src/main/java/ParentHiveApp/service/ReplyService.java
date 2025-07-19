@@ -12,6 +12,7 @@ public interface ReplyService {
     Reply findById(long id);
 //    void save(String content);
 //    void delete(long id);
+    List<Reply> listReplies();
     List<Reply> listAllRepliesById(Long id);
     Reply createReply(String Content, Optional<User> user, Post post);
     void upvoteReply(Long replyId, Optional<User> user);

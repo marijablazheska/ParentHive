@@ -83,6 +83,36 @@ public class PostController {
 
         return "redirect:/profile";
     }
+    //  Get edit page
+    @GetMapping("/editPost/{postId}")
+    public String getEditPost(Model model, @PathVariable Long postId) {
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
+        Post post = postService.getPostById(postId);
+        model.addAttribute("post", post);
+
+        return "editPost"; // will load resources/templates/createpost.html
+    }
+    //  Not cooked
+    @PostMapping("/editPost/{postId}")
+    public String editPost(@RequestParam String Category,
+                           @RequestParam String Title,
+                           @RequestParam String Content,
+                           @PathVariable Long postId
+    ){
+
+        Long userId = userService.getCurrentUserId();
+//      Long id, String title, String content, String category
+        Optional<User> user = userService.getUserById(userId);
+        Post post = postService.getPostById(postId);
+        if(user.isPresent() && user.get().getPosts().contains(post)){
+            this.postService.updatePost(postId, Title, Content, Category);
+        } else {
+            return "redirect:/profile";
+        }
+
+        return "redirect:/profile";
+    }
 //  Get report page
     @GetMapping("/posts/{postId}/report")
     public String reportPostPage(@PathVariable Long postId, Model model){
