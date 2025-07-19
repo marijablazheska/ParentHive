@@ -1,0 +1,151 @@
+body {
+    font-family: Roboto, sans-serif;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logo-img {
+    height: 60px;
+    margin-right: 10px;
+}
+
+.button-container a {
+    padding: 8px 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.register-btn {
+    background-color: #F28C28;
+    color: white;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.login-btn {
+    background-color: #ccc;
+    color: #007BFF;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.login-btn:hover {
+    background-color: #007BFF;
+    color: white;
+}
+
+.register-btn:hover {
+    background-color: #e67e22;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    margin-right: 2px;
+}
+
+.profile-name {
+    font-weight: 500;
+    margin-right: 4px;
+}
+
+.arrow-down {
+    font-size: 16px;
+    color: #555;
+    transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when open */
+.profile-container.open .arrow-down {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    display: none; /* hidden by default */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    margin-top: 8px;
+    min-width: 140px;
+    z-index: 100;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: black;
+    white-space: nowrap;
+    font-weight: normal;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+.profile-container {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    padding: 5px 10px;
+}
+
+.profile-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Show the dropdown when container has 'open' class */
+.profile-container.open .dropdown-menu {
+    display: block;
+}
+
+
+/* sidebar style start */
+/*
+/**!*/
+/**/
+/**/
+.text-orange {
+    color: orange;
+}
+
+.sidebar-link {
+    text-decoration: none;
+    color: #212529;
+    padding: 6px 12px;
+    border-radius: 5px;
+}
+
+.sidebar-link:hover {
+    background-color: #f8f9fa;
+}
+
+.active-link {
+    background-color: #fdf6f2;
+    border-left: 4px solid orange;
+    color: orange;
+    font-weight: 600;
+}
