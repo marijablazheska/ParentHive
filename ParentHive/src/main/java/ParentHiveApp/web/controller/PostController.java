@@ -138,7 +138,13 @@ public class PostController {
         Optional<User> user = userService.getUserById(userService.getCurrentUserId());
         user.ifPresent(userBap -> model.addAttribute("user", userBap));
 
-        model.addAttribute("post", postService.getPostById(postId));
+        Post post = postService.getPostById(postId);
+        post.setContent(post.getContent().replaceAll(
+                "(https?://[\\w\\-._~:/?#\\[\\]@!$&'()*+,;=%]+)",
+                "<a href=\"$1\" target=\"_blank\">$1</a>"
+        ));
+
+        model.addAttribute("post", post);
         model.addAttribute("replies", postService.getPostById(postId).getReplies());
 
         return "viewpost.html"; // will load resources/templates/home.html

@@ -26,18 +26,18 @@
 
         <!-- Main Content -->
         <div class="container-fluid main-content row" style="padding: 20px;">
-            <div class="col-8">
+            <div class="col-9">
                 <div th:replace="fragments/postbox :: postbox(${post}, ${false})"></div>
 
                 <h2 class="m-5 mb-3 text-center text-secondary">Suggestions</h2>
 
-                <div class="card p-3 m-1">
+                <div class="card p-3 m-1" id="replyBox" style="display: none">
                     <div class="container mt-4">
                         <form th:action="@{'/posts/addReply/' + ${postId}}" method="post">
                             <!-- Reply Content -->
                             <div class="mb-3">
-                        <textarea class="form-control" id="replyContent" name="Content" rows="6"
-                                  placeholder="Type here your wise suggestion" required></textarea>
+                                <textarea class="form-control" id="replyContent" name="Content" rows="6"
+                                          placeholder="Type here your wise suggestion" required></textarea>
                             </div>
 
                             <!-- Buttons -->
@@ -48,6 +48,7 @@
                         </form>
                     </div>
                 </div>
+
                 <div class="m-3 mb-3" th:each="reply : ${replies}">
                     <div th:replace="fragments/postbox :: replybox(${reply})"></div>
                 </div>
@@ -62,4 +63,19 @@
 </div>
 
 </body>
+
+<script>
+    function toggleVisibility(id, buttonId) {
+        event.stopPropagation();
+        const element = document.getElementById(id);
+        const btnElement = document.getElementById(buttonId);
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+        btnElement.style.display = 'none';
+    }
+</script>
+
 </html>
