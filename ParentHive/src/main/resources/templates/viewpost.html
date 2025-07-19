@@ -19,14 +19,12 @@
     <div th:replace="~{fragments/topbars :: topbar-guest}"></div>
 </div>
 <div class="page-container" style="display: flex; min-height: 100vh;">
-
-    <div class="page-container" style="display: flex; min-height: 100vh;">
         <!-- Sidebar -->
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
         <!-- Main Content -->
-        <div class="container-fluid main-content row" style="padding: 20px;">
-            <div class="col-9">
+        <div class="main-content flex row" style="padding: 20px;">
+            <div class="posts-list col-8">
                 <div th:replace="fragments/postbox :: postbox(${post}, ${false})"></div>
 
                 <h2 class="m-5 mb-3 text-center text-secondary">Suggestions</h2>
@@ -53,13 +51,11 @@
                     <div th:replace="fragments/postbox :: replybox(${reply})"></div>
                 </div>
             </div>
+
             <div class="col-3">
                 <div th:replace="fragments/misc-components :: userbox(${post.user})"></div>
             </div>
         </div>
-    </div>
-
-
 </div>
 
 </body>
@@ -76,6 +72,12 @@
         }
         btnElement.style.display = 'none';
     }
+
+    document.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') {
+            e.stopPropagation(); // prevent card onclick
+        }
+    }, true);
 </script>
 
 </html>
