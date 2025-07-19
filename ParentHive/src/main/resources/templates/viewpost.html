@@ -10,39 +10,55 @@
     <link href="/css/styleTopBarSideBar.css" rel="stylesheet">
 </head>
 <body>
-<!-- Sidebar -->
-<div th:replace="fragments/sidebar :: sidebar"></div>
-<!-- Main Content -->
-<div class="container-fluid main-content row" style="padding: 20px; margin-left: 15%;">
-    <div class="col-8">
-        <div th:replace="fragments/postbox :: postbox(${post}, ${false})"></div>
+<!-- Topbar -->
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-signed}"></div>
+</div>
+<div th:unless="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-guest}"></div>
+</div>
+<div class="page-container" style="display: flex; min-height: 100vh;">
 
-        <h2 class="m-5 mb-3 text-center text-secondary">Suggestions</h2>
+    <div class="page-container" style="display: flex; min-height: 100vh;">
+        <!-- Sidebar -->
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
-        <div class="card p-3 m-1">
-            <div class="container mt-4">
-                <form th:action="@{'/posts/addReply/' + ${postId}}" method="post">
-                    <!-- Reply Content -->
-                    <div class="mb-3">
+        <!-- Main Content -->
+        <div class="container-fluid main-content row" style="padding: 20px;">
+            <div class="col-8">
+                <div th:replace="fragments/postbox :: postbox(${post}, ${false})"></div>
+
+                <h2 class="m-5 mb-3 text-center text-secondary">Suggestions</h2>
+
+                <div class="card p-3 m-1">
+                    <div class="container mt-4">
+                        <form th:action="@{'/posts/addReply/' + ${postId}}" method="post">
+                            <!-- Reply Content -->
+                            <div class="mb-3">
                         <textarea class="form-control" id="replyContent" name="Content" rows="6"
                                   placeholder="Type here your wise suggestion" required></textarea>
-                    </div>
+                            </div>
 
-                    <!-- Buttons -->
-                    <div class="d-flex justify-content-end gap-2">
-                        <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-warning"><i class="far fa-comment stats-icon"></i> Suggest</button>
+                            <!-- Buttons -->
+                            <div class="d-flex justify-content-end gap-2">
+                                <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-warning"><i class="far fa-comment stats-icon"></i> Suggest</button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+                <div class="m-3 mb-3" th:each="reply : ${replies}">
+                    <div th:replace="fragments/postbox :: replybox(${reply})"></div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div th:replace="fragments/misc-components :: userbox(${post.user})"></div>
             </div>
         </div>
-        <div class="m-3 mb-3" th:each="reply : ${replies}">
-            <div th:replace="fragments/postbox :: replybox(${reply})"></div>
-        </div>
     </div>
-    <div class="col-3">
-        <div th:replace="fragments/misc-components :: userbox(${post.user})"></div>
-    </div>
+
+
 </div>
+
 </body>
 </html>

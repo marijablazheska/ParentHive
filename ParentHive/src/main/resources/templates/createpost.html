@@ -11,47 +11,59 @@
 </head>
 <body>
 
-<!-- Sidebar -->
-<div th:replace="fragments/sidebar :: sidebar"></div>
+<!-- Topbar -->
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-signed}"></div>
+</div>
+<div th:unless="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-guest}"></div>
+</div>
 
-<!-- Main Content -->
-<div class="main-content" style="padding: 20px; margin-left: 15%;">
+<div class="page-container" style="display: flex; min-height: 100vh;">
+    <!-- Sidebar -->
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
-    <div class="card p-3 m-5">
-        <form action="/createpost/add" method="post">
-            <!-- Category Dropdown -->
-            <div class="mb-3">
-                <select class="form-select" id="category" name="Category" required>
-                    <option disabled selected value="">Choose category</option>
-                    <option value="Newborn">Newborn</option>
-                    <option value="Toddler">Toddler</option>
-                    <option value="Child">Child</option>
-                    <option value="Teenager">Teenager</option>
-                    <option value="Young Adult">Young Adult</option>
-                    <option value="Adult">Adult</option>
-                    <option value="Special Needs">Special Needs</option>
-                </select>
-            </div>
+    <!-- Main Content -->
+    <div class="main-content" style="padding: 20px;">
 
-            <!-- Post Title -->
-            <div class="mb-3">
-                <input type="text" class="form-control" id="postTitle" name="Title"
-                       placeholder="Type attention-catching title" required>
-            </div>
+        <div class="card p-3 m-5">
+            <form action="/createpost/add" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <!-- Category Dropdown -->
+                <div class="mb-3">
+                    <select class="form-select" id="category" name="Category" required>
+                        <option disabled selected value="">Choose category</option>
+                        <option value="Newborn">Newborn</option>
+                        <option value="Toddler">Toddler</option>
+                        <option value="Child">Child</option>
+                        <option value="Teenager">Teenager</option>
+                        <option value="Young Adult">Young Adult</option>
+                        <option value="Adult">Adult</option>
+                        <option value="Special Needs">Special Needs</option>
+                    </select>
+                </div>
 
-            <!-- Post Content -->
-            <div class="mb-3">
+                <!-- Post Title -->
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="postTitle" name="Title"
+                           placeholder="Type attention-catching title" required>
+                </div>
+
+                <!-- Post Content -->
+                <div class="mb-3">
                 <textarea class="form-control" id="postContent" name="Content" rows="6"
                           placeholder="Type your question" required></textarea>
-            </div>
+                </div>
 
-            <!-- Buttons -->
-            <div class="d-flex justify-content-end gap-2">
-                <button type="submit" class="btn btn-warning"><i class="fas fa-comment stats-icon"></i> Post</button>
-            </div>
-        </form>
+                <!-- Buttons -->
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-warning"><i class="fas fa-comment stats-icon"></i> Post</button>
+                    <a href="javascript:history.back()" class="btn" style="background-color: #fcc907;">Cancel</a>
+                </div>
+            </form>
+        </div>
+        <div class="empty-div"></div>
     </div>
-    <div class="empty-div"></div>
 </div>
 
 </body>

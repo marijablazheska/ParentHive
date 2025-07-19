@@ -10,48 +10,60 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 </head>
 <body>
-<!-- Sidebar -->
-<div th:replace="fragments :: sidebar"></div>
-<!-- Main Content -->
-<div class="main-content" style="padding: 20px; margin-left: 15%;">
-    <h1 class="mt-5 mb-4">Learn how to use the page</h1>
-    <h2 class="mt-5">Community Guidelines</h2>
-    <p>
-        Welcome to the forum! This is a safe and supportive space where parents, guardians, grandparents, and soon-to-be
-        parents come together to share experiences, seek advice, and support one another through the challenges of
-        raising children. To maintain a welcoming and helpful environment for all users, please follow the guidelines
-        below:
-    </p>
-    <h3 class="mt-3">Zero Tolerance for Toxicity</h3>
-    <p>
-        We encourage open discussion and respectful critique of parenting approaches and advice. It is natural for
-        people to have different opinions or parenting philosophies. When disagreeing:
-    </p>
-    <ul>
-        <li>Focus your response on the idea or advice, not the person sharing it.</li>
-        <li>Use respectful, solution-focused language that contributes positively to the conversation.</li>
-        <li>Avoid sarcasm, name-calling, or dismissive tones.</li>
-    </ul>
-    <p>
-        Personal attacks, insults, hostility, bullying, or condescending behavior will not be tolerated under any
-        circumstances. Any user engaging in toxic behavior will face immediate and appropriate consequences, including
-        temporary mute or permanent account ban, depending on severity.
-    </p>
-    <h3 class="mt-3">Do Not Abuse the Reporting System</h3>
-    <p>
-        The reporting system exists to flag harmful, abusive, or clearly inappropriate content for moderator review.
-    </p>
-    <p>
-        Mass reporting, reporting users for personal disagreements, or intentionally submitting false reports is
-        considered abuse. Users found misusing the reporting system may have reporting privileges revoked or face
-        account penalties.
-    </p>
-    <div class="empty-div">
 
+<!-- Topbar -->
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-signed}"></div>
+</div>
+<div th:unless="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-guest}"></div>
+</div>
+
+<div class="page-container" style="display: flex; min-height: 100vh;">
+    <!-- Sidebar -->
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+    <!-- Main Content -->
+    <div class="main-content" style="padding: 20px;">
+        <h1 class="mt-5 mb-4">Learn how to use the page</h1>
+        <h2 class="mt-5">Community Guidelines</h2>
+        <p>
+            Welcome to the forum! This is a safe and supportive space where parents, guardians, grandparents, and soon-to-be
+            parents come together to share experiences, seek advice, and support one another through the challenges of
+            raising children. To maintain a welcoming and helpful environment for all users, please follow the guidelines
+            below:
+        </p>
+        <h3 class="mt-3">Zero Tolerance for Toxicity</h3>
+        <p>
+            We encourage open discussion and respectful critique of parenting approaches and advice. It is natural for
+            people to have different opinions or parenting philosophies. When disagreeing:
+        </p>
+        <ul>
+            <li>Focus your response on the idea or advice, not the person sharing it.</li>
+            <li>Use respectful, solution-focused language that contributes positively to the conversation.</li>
+            <li>Avoid sarcasm, name-calling, or dismissive tones.</li>
+        </ul>
+        <p>
+            Personal attacks, insults, hostility, bullying, or condescending behavior will not be tolerated under any
+            circumstances. Any user engaging in toxic behavior will face immediate and appropriate consequences, including
+            temporary mute or permanent account ban, depending on severity.
+        </p>
+        <h3 class="mt-3">Do Not Abuse the Reporting System</h3>
+        <p>
+            The reporting system exists to flag harmful, abusive, or clearly inappropriate content for moderator review.
+        </p>
+        <p>
+            Mass reporting, reporting users for personal disagreements, or intentionally submitting false reports is
+            considered abuse. Users found misusing the reporting system may have reporting privileges revoked or face
+            account penalties.
+        </p>
+        <div class="empty-div">
+
+        </div>
     </div>
 </div>
 
+
 <!-- Footer -->
-<div th:replace="fragments :: footer"></div>
+<!--<div th:replace="fragments :: footer"></div>-->
 </body>
 </html>

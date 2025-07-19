@@ -21,6 +21,7 @@
 
     <div class="container mt-4">
         <form th:action="@{'/posts/addReply/' + ${postId}}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <!-- Reply Content -->
             <div class="mb-3">
                 <label for="replyContent" class="form-label">Reply Content</label>
@@ -40,7 +41,7 @@
 </div>
 
 <!-- Footer -->
-<div th:replace="fragments :: footer"></div>
+<!--<div th:replace="fragments :: footer"></div>-->
 
 </body>
 </html>

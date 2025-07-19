@@ -136,7 +136,7 @@
     <header class="topbar">
         <!-- Logo + Name -->
         <div style="display: flex; align-items: center;">
-            <img src="/assets/logo.png" alt="ParentHive Logo" class="logo-img">
+            <a th:href="@{/home}"><img  src="/assets/logo.png" alt="ParentHive Logo" class="logo-img"></a>
             <span class="logo-text"><span style="font-weight: normal">Parent</span>Hive</span>
         </div>
 
@@ -155,7 +155,7 @@
     <header class="topbar">
         <!-- Logo + Name -->
         <div style="display: flex; align-items: center;">
-            <img src="/assets/logo.png" alt="ParentHive Logo" class="logo-img">
+            <a th:href="@{/home}"><img  src="/assets/logo.png" alt="ParentHive Logo" class="logo-img"></a>
             <span class="logo-text"><span style="font-weight: normal">Parent</span>Hive</span>
         </div>
 
@@ -175,7 +175,8 @@
             <!-- Profile Dropdown -->
             <div class="profile-wrapper" id="profileMenu">
                 <div class="profile-container" id="profileToggle">
-                    <img th:src="" alt="Profile" class="profile-pic" />
+<!--                    <img th:src="" alt="Profile" class="profile-pic" />-->
+                    <img src="https://placehold.co/40x40/cccccc/333333?text=User" alt="Profile" class="profile-pic" />
                     <span class="profile-name" th:text="${user.username}">Username</span>
                     <span class="arrow-down">&#9662;</span>
                 </div>

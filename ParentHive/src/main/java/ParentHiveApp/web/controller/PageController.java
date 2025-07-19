@@ -24,6 +24,8 @@ public class PageController {
     @RequestMapping({ "/home", "/" })
     public String home(Model model) {
         //      list posts
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
         model.addAttribute("posts", postService.listPosts());
         return "home"; // will load resources/templates/home.html
     }
@@ -31,6 +33,7 @@ public class PageController {
     @GetMapping("/profile")
     public String profile(Model model) {
         Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
         model.addAttribute("username", user.get().getUsername());
 //      list posts from user
         model.addAttribute("posts", user.get().getPosts());
@@ -38,12 +41,18 @@ public class PageController {
         return "profile"; // will load resources/templates/profile.html
     }
     @GetMapping("/help")
-    public String help() {
+    public String help(Model model) {
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
+
         return "help"; // will load resources/templates/help.html
     }
 
     @GetMapping("/createpost")
-    public String createPost() {
+    public String createPost(Model model) {
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
+
         return "createpost"; // will load resources/templates/createpost.html
     }
 

@@ -11,91 +11,100 @@
 <body style="margin:0px;padding:0px;">
 
 <!-- Topbar -->
-<div th:replace="~{fragments/topbars :: topbar-guest}"></div>
-<!-- Sidebar -->
-<div th:insert="~{fragments/sidebar :: sidebar}"></div>
-
-<!-- Main content -->
-<div class="main-content" style="padding: 20px; margin-left: 15%;">
-    <div class="profile-card text-center">
-        <img src="https://media.istockphoto.com/id/1192313124/photo/pensive-customer-thinking-over-special-offer.jpg?s=2048x2048&w=is&k=20&c=U4VMXH2DwXC0Cqvto9BGQtxiPxoD1yz_zk7WxpRhUjc=" class="profile-picture" alt="Profile Picture">
-        <div class="profile-info">
-            <h5 th:text="${username}"></h5>
-        </div>
-    </div>
-    <div class="make-post-btn text-center mb-5">
-        <a th:href="@{/createpost}" class="btn custom-post-btn">Make a Post</a>
-    </div>
-
-    <div th:if="${posts.size() == 0}">
-        <p>No posts yet!</p>
-    </div>
-
-
-    <div class="posts-list" th:if="${posts.size() > 0}">
-        <div th:each="post : ${posts}" class="Post">
-            <div class="Post-Title">
-                <p th:text="'@' + ${post.user.username} + ' ' + ${post.title}"></p>
-            </div>
-            <div class="Post-Body">
-                <p th:text="${post.content}"></p>
-            </div>
-            <div class="Post-Interactions">
-                <!-- Upvote -->
-                <div class="Interaction">
-                    <form th:action="@{'/posts/' + ${post.id} + '/upvote'}" method="post">
-                        <button type="submit" class="Interaction-Button">
-                            <i class="fa-solid fa-up-long"></i>
-                            <span th:text="${post.upvote}">0</span>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Downvote -->
-                <div class="Interaction">
-                    <form th:action="@{'/posts/' + ${post.id} + '/downvote'}" method="post">
-                        <button type="submit" class="Interaction-Button">
-                            <i class="fa-solid fa-down-long"></i>
-                            <span th:text="${post.downvote}">0</span>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Comment (not a form, just a link) -->
-                <div class="Interaction">
-                    <a th:href="@{'/posts/' + ${post.id}}" class="Interaction-Button">
-                        <i class="fa-solid fa-comment"></i>
-                        <span th:text="${#lists.size(post.replies)}">0</span>
-                    </a>
-                </div>
-
-                <!-- Repost -->
-                <div class="Interaction">
-                    <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
-                        <button type="submit" class="Interaction-Button">
-                            <i class="fa-solid fa-reply"></i>
-                            <span th:text="${post.repost}">0</span>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Report -->
-                <div class="Interaction">
-                    <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="post">
-                        <button type="submit" class="Interaction-Button">
-                            <i class="fa-solid fa-flag"></i>
-                        </button>
-                    </form>
-                </div>
-
-                <p th:text="'#' + ${post.category}">#Category</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="empty-div"></div>
-
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-signed}"></div>
 </div>
+<div th:unless="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-guest}"></div>
+</div>
+
+<div class="page-container" style="display: flex; min-height: 100vh;">
+    <!-- Sidebar -->
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Main content -->
+    <div class="main-content" style="padding: 20px; margin-left: 15%;">
+        <div class="profile-card text-center">
+            <img src="https://media.istockphoto.com/id/1192313124/photo/pensive-customer-thinking-over-special-offer.jpg?s=2048x2048&w=is&k=20&c=U4VMXH2DwXC0Cqvto9BGQtxiPxoD1yz_zk7WxpRhUjc=" class="profile-picture" alt="Profile Picture">
+            <div class="profile-info">
+                <h5 th:text="${username}"></h5>
+            </div>
+        </div>
+        <div class="make-post-btn text-center mb-5">
+            <a th:href="@{/createpost}" class="btn custom-post-btn">Make a Post</a>
+        </div>
+
+        <div th:if="${posts.size() == 0}">
+            <p>No posts yet!</p>
+        </div>
+
+
+        <div class="posts-list" th:if="${posts.size() > 0}">
+            <div th:each="post : ${posts}" class="Post">
+                <div class="Post-Title">
+                    <p th:text="'@' + ${post.user.username} + ' ' + ${post.title}"></p>
+                </div>
+                <div class="Post-Body">
+                    <p th:text="${post.content}"></p>
+                </div>
+                <div class="Post-Interactions">
+                    <!-- Upvote -->
+                    <div class="Interaction">
+                        <form th:action="@{'/posts/' + ${post.id} + '/upvote'}" method="post">
+                            <button type="submit" class="Interaction-Button">
+                                <i class="fa-solid fa-up-long"></i>
+                                <span th:text="${post.upvote}">0</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Downvote -->
+                    <div class="Interaction">
+                        <form th:action="@{'/posts/' + ${post.id} + '/downvote'}" method="post">
+                            <button type="submit" class="Interaction-Button">
+                                <i class="fa-solid fa-down-long"></i>
+                                <span th:text="${post.downvote}">0</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Comment (not a form, just a link) -->
+                    <div class="Interaction">
+                        <a th:href="@{'/posts/' + ${post.id}}" class="Interaction-Button">
+                            <i class="fa-solid fa-comment"></i>
+                            <span th:text="${#lists.size(post.replies)}">0</span>
+                        </a>
+                    </div>
+
+                    <!-- Repost -->
+                    <div class="Interaction">
+                        <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
+                            <button type="submit" class="Interaction-Button">
+                                <i class="fa-solid fa-reply"></i>
+                                <span th:text="${post.repost}">0</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Report -->
+                    <div class="Interaction">
+                        <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="post">
+                            <button type="submit" class="Interaction-Button">
+                                <i class="fa-solid fa-flag"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                    <p th:text="'#' + ${post.category}">#Category</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty-div"></div>
+
+    </div>
+</div>
+
 <!-- Footer -->
 <!--<div th:replace="fragments :: footer"></div>-->
 

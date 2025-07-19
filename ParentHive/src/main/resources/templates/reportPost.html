@@ -11,36 +11,48 @@
 </head>
 <body>
 
-<!-- Sidebar -->
-<div th:replace="fragments :: sidebar"></div>
-
-<!-- Main Content -->
-<div class="main-content" style="padding: 20px; margin-left: 15%;">
-    <h1>Create a new Report</h1>
-    <p th:text="'@' + ${#authentication.name}">Logged-in user</p>
-
-    <div class="container mt-4">
-        <form th:action="@{'/posts/report/' + ${postId}}" method="post">
-            <!-- Report Content -->
-            <div class="mb-3">
-                <label for="reportContent" class="form-label">Report Content</label>
-                <textarea class="form-control" id="reportContent" name="Content" rows="6"
-                          placeholder="Write your report..." required></textarea>
-            </div>
-
-            <!-- Buttons -->
-            <div class="d-flex justify-content-start gap-2">
-                <button type="submit" class="btn" style="background-color: #fcc907;">Report</button>
-                <a href="javascript:history.back()" class="btn" style="background-color: #fcc907;">Cancel</a>
-            </div>
-        </form>
-    </div>
-
-    <div class="empty-div"></div>
+<!-- Topbar -->
+<div th:if="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-signed}"></div>
+</div>
+<div th:unless="${#authorization.expression('isAuthenticated()')}">
+    <div th:replace="~{fragments/topbars :: topbar-guest}"></div>
 </div>
 
+<div class="page-container" style="display: flex; min-height: 100vh;">
+    <!-- Sidebar -->
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+    <!-- Main Content -->
+    <div class="main-content" style="padding: 20px;">
+        <h1>Create a new Report</h1>
+        <p th:text="'@' + ${#authentication.name}">Logged-in user</p>
+
+        <div class="container mt-4">
+            <form th:action="@{'/posts/report/' + ${postId}}" method="post">
+                <!-- Report Content -->
+                <div class="mb-3">
+                    <label for="reportContent" class="form-label">Report Content</label>
+                    <textarea class="form-control" id="reportContent" name="Content" rows="6"
+                              placeholder="Write your report..." required></textarea>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-start gap-2">
+                    <button type="submit" class="btn" style="background-color: #fcc907;">Report</button>
+                    <a href="javascript:history.back()" class="btn" style="background-color: #fcc907;">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="empty-div"></div>
+    </div>
+</div>
+
+
+
 <!-- Footer -->
-<div th:replace="fragments :: footer"></div>
+<!--<div th:replace="fragments :: footer"></div>-->
 
 </body>
 </html>

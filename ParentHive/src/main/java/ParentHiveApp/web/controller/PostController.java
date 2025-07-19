@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PostController {
@@ -86,6 +87,8 @@ public class PostController {
     @GetMapping("/posts/{postId}/report")
     public String reportPostPage(@PathVariable Long postId, Model model){
         Long userId = userService.getCurrentUserId();
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
         model.addAttribute("postId", postId);
 
         return "reportPost.html";
@@ -102,6 +105,8 @@ public class PostController {
 //    View post
     @GetMapping("/posts/{postId}")
     public String post(@PathVariable Long postId, Model model) {
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
 
         model.addAttribute("post", postService.getPostById(postId));
         model.addAttribute("replies", postService.getPostById(postId).getReplies());
