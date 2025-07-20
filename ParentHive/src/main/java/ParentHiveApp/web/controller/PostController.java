@@ -128,7 +128,9 @@ public class PostController {
 
     //  Send report page
     @PostMapping ("/posts/report/{postId}")
-    public String reportPost(@PathVariable Long postId){
+    public String reportPost(@PathVariable Long postId,
+                             @RequestParam String Content,
+                             @RequestParam String reportReason){
         Long userId = userService.getCurrentUserId();
 //      TODO Implement functionality
         return "redirect:/posts/" + postId + "?report=success";
