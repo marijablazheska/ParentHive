@@ -20,11 +20,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
     private final UserRepositoryJpa userRepositoryJpa;
+
+    public AuthController(UserService userService, UserRepositoryJpa userRepositoryJpa) {
+
+        this.userService = userService;
+        this.userRepositoryJpa = userRepositoryJpa;
+    }
 
     @GetMapping("/login")
     public String loginPage() {
