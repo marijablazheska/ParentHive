@@ -17,7 +17,7 @@
 
 <!-- Main Content -->
 <div class="main-content" style="padding: 20px; margin-left: 15%;">
-    <h1>Create a new Reply</h1>
+    <h1>Make an echo!</h1>
     <p th:text="'@' + ${#authentication.name}">Logged-in user</p>
 
     <div class="container mt-4">
@@ -25,14 +25,14 @@
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <!-- Reply Content -->
             <div class="mb-3">
-                <label for="replyContent" class="form-label">Reply Content</label>
+                <label for="replyContent" class="form-label">What do you echo?</label>
                 <textarea class="form-control" id="replyContent" name="Content" rows="6"
-                          placeholder="Write your reply..." required></textarea>
+                          placeholder="Type what you echo..." required></textarea>
             </div>
 
             <!-- Buttons -->
             <div class="d-flex justify-content-start gap-2">
-                <button type="submit" class="btn" style="background-color: #fcc907;">Reply</button>
+                <button type="submit" class="btn" style="background-color: #fcc907;">Echo</button>
                 <a href="javascript:history.back()" class="btn" style="background-color: #fcc907;">Cancel</a>
             </div>
         </form>
@@ -40,9 +40,8 @@
 
     <div class="empty-div"></div>
 </div>
+<script src="/js/sidebar.js"></script>
 
-<!-- Footer -->
-<!--<div th:replace="fragments :: footer"></div>-->
 
 </body>
 </html>

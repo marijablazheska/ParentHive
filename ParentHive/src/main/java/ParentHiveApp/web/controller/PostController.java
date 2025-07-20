@@ -14,12 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class PostController {
-//    TODO
+    //    TODO
     private final PostService postService;
     private final UserService userService;
     private final ReplyService replyService;
@@ -29,55 +30,57 @@ public class PostController {
         this.userService = userService;
         this.replyService = replyService;
     }
+
     // search
     @GetMapping("/posts")
-    public String getPostsPage(@RequestParam(required = false) String error,
-                               @RequestParam(required = false) String search,
-                               @RequestParam(required = false) String category,
-                               @RequestParam(required = false) String sortby,
-                               Model model){
-        if(error != null && !error.isEmpty()) {
-            model.addAttribute("hasError", true);
-            model.addAttribute("error", error);
+    public String getPostsPage(@RequestParam(required = false) String search,
+                               Model model) {
+        List<Post> posts;
+
+        if (search != null && !search.trim().isEmpty()) {
+            posts = postService.getPostByTitle(search);
+            model.addAttribute("searchTerm", search);
+        } else {
+            posts = postService.listPosts();
         }
 
+        // Add user to model
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
 
-        if (search != null && !category.equals("")) {
-            if(!sortby.equals("")){
-                model.addAttribute("posts", postService.sortBy(sortby, postService.getPostByTitleAndCategory(search, category)));
-            } else {
-                model.addAttribute("posts", postService.getPostByTitleAndCategory(search, category));
-            }
-
-        } else if(search != null && category.isEmpty()){
-            if(!sortby.equals("")){
-                model.addAttribute("posts", postService.sortBy(sortby, postService.getPostByTitle(search)));
-            } else {
-                model.addAttribute("posts", postService.getPostByTitle(search));
-            }
-        } else if(search == null && !category.isEmpty()){
-            if(!sortby.equals("")){
-                model.addAttribute("posts", postService.sortBy(sortby, postService.getPostByCategory(category)));
-            } else {
-                model.addAttribute("posts", postService.getPostByCategory(category));
-            }
-
-        }else {
-            if(!sortby.equals("")){
-                model.addAttribute("posts", postService.sortBy(sortby, postService.listPosts()));
-            } else {
-                model.addAttribute("posts", postService.listPosts());
-            }
-        }
+        // Add posts to model
+        model.addAttribute("posts", posts != null ? posts : new ArrayList<>());
 
         return "home";
     }
+
+    //filter by category
+    @GetMapping("/tags")
+    public String getPostsByCategory(@RequestParam(required = false) String tag, Model model) {
+        List<Post> posts;
+        if (tag != null && !tag.trim().isEmpty()) {
+            posts = postService.getPostByCategory(tag);
+            model.addAttribute("selectedTag", tag);
+        } else {
+            posts = postService.listPosts(); // show all posts if no category specified
+            model.addAttribute("selectedTag", "");
+        }
+
+        // Add user to model
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
+
+        model.addAttribute("posts", posts);
+        return "home"; // or whatever your view template is named that shows the posts
+    }
+
+
 
     @PostMapping("/createpost/add")
     public String savePost(@RequestParam String Category,
                            @RequestParam String Title,
                            @RequestParam String Content
-                           ){
+    ) {
 
         Long userId = userService.getCurrentUserId();
 //        String title, String content, String category, User user
@@ -85,6 +88,7 @@ public class PostController {
 
         return "redirect:/profile";
     }
+
     //  Get edit page
     @GetMapping("/editPost/{postId}")
     public String getEditPost(Model model, @PathVariable Long postId) {
@@ -95,19 +99,20 @@ public class PostController {
 
         return "editPost"; // will load resources/templates/createpost.html
     }
+
     //  Not cooked
     @PostMapping("/editPost/{postId}")
     public String editPost(@RequestParam String Category,
                            @RequestParam String Title,
                            @RequestParam String Content,
                            @PathVariable Long postId
-    ){
+    ) {
 
         Long userId = userService.getCurrentUserId();
 //      Long id, String title, String content, String category
         Optional<User> user = userService.getUserById(userId);
         Post post = postService.getPostById(postId);
-        if(user.isPresent() && user.get().getPosts().contains(post)){
+        if (user.isPresent() && user.get().getPosts().contains(post)) {
             this.postService.updatePost(postId, Title, Content, Category);
         } else {
             return "redirect:/posts/" + postId + "?error=failedToEditPost";
@@ -115,9 +120,10 @@ public class PostController {
 
         return "redirect:/posts/" + postId;
     }
-//  Get report page
+
+    //  Get report page
     @GetMapping("/posts/{postId}/report")
-    public String reportPostPage(@PathVariable Long postId, Model model){
+    public String reportPostPage(@PathVariable Long postId, Model model) {
         Long userId = userService.getCurrentUserId();
         Optional<User> user = userService.getUserById(userService.getCurrentUserId());
         user.ifPresent(userBap -> model.addAttribute("user", userBap));
@@ -127,16 +133,16 @@ public class PostController {
     }
 
     //  Send report page
-    @PostMapping ("/posts/report/{postId}")
+    @PostMapping("/posts/report/{postId}")
     public String reportPost(@PathVariable Long postId,
                              @RequestParam String Content,
-                             @RequestParam String reportReason){
+                             @RequestParam String reportReason) {
         Long userId = userService.getCurrentUserId();
 //      TODO Implement functionality
         return "redirect:/posts/" + postId + "?report=success";
     }
 
-//    View post
+    //    View post
     @GetMapping("/posts/{postId}")
     public String post(@PathVariable Long postId, @RequestParam(required = false) String report, Model model) {
         Optional<User> user = userService.getUserById(userService.getCurrentUserId());
@@ -153,7 +159,7 @@ public class PostController {
 
         // Add report message to model if present
         if (report != null && !report.isEmpty()) {
-            if(report.equals("success")){
+            if (report.equals("success")) {
                 model.addAttribute("reportSuccess", true);
                 model.addAttribute("reportMessage", "Your report has been submitted successfully!");
             } else {
@@ -198,10 +204,10 @@ public class PostController {
 
     @PostMapping("/posts/addReply/{postId}")
     public String saveReply(@RequestParam String Content,
-                           @PathVariable Long postId, Model model,
+                            @PathVariable Long postId, Model model,
                             RedirectAttributes redirectAttributes
 
-    ){
+    ) {
         Long userId = userService.getCurrentUserId();
         model.addAttribute("postId", postId);
         this.replyService.createReply(Content, userService.getUserById(userId), postService.getPostById(postId));
@@ -225,15 +231,17 @@ public class PostController {
     public String editReply(@RequestParam String Content,
                             @PathVariable Long replyId, Model model
 
-    ){
+    ) {
         Optional<User> user = userService.getUserById(userService.getCurrentUserId());
         user.ifPresent(userBap -> model.addAttribute("user", userBap));
 
         Reply reply = replyService.findById(replyId);
         model.addAttribute("reply", reply);
-        if(reply.getUser().getId() == user.get().getId()){
+        if (reply.getUser().getId() == user.get().getId()) {
             this.replyService.updateReply(replyId, Content);
-        } else { return "redirect:/echoes?error=invalidRequest"; }
+        } else {
+            return "redirect:/echoes?error=invalidRequest";
+        }
 
 
         return "redirect:/posts/" + reply.getPost().getId();

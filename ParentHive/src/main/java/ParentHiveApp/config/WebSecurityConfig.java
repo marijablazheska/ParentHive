@@ -46,7 +46,7 @@ public class WebSecurityConfig {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/assets/**", "/register", "/css/**", "/static/**", "/register").permitAll()
+                        .requestMatchers("/", "/assets/**", "/register", "/css/**", "/js/**", "/static/**", "/register").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/professional/**").hasRole("PROFESSIONAL")
                         .requestMatchers("/pending/**").hasRole("PENDING_PROFESSIONAL")

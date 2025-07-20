@@ -9,10 +9,7 @@ import ParentHiveApp.service.PostService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,18 +33,21 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getPostByTitle(String title) {
-        return postRepositoryJpa.findAllByTitleContainingIgnoreCase(title);
+        List<Post> results = postRepositoryJpa.findAllByTitleContainingIgnoreCase(title);
+        return results != null?results:new ArrayList<>();
+        //return postRepositoryJpa.findAllByTitleContainingIgnoreCase(title);
     }
 
     @Override
     public List<Post> getPostByCategory(String category) {
-        return postRepositoryJpa.findAllByCategoryContainingIgnoreCase(category);
+        return postRepositoryJpa.findAllByCategoryIgnoreCase(category);
     }
 
     @Override
     public List<Post> getPostByTitleAndCategory(String title, String category) {
         return postRepositoryJpa.findAllByTitleContainingIgnoreCaseAndCategoryContainingIgnoreCase(title, category);
     }
+
 
     @Override
     public List<Post> sortBy(String sortBy, List<Post> posts) {

@@ -26,87 +26,102 @@
             font-weight: 600;
         }
     </style>
-    <script>
-        function toggleTags() {
-            const container = document.getElementById("tagLinksContainer");
-            container.style.display = container.style.display === "none" ? "block" : "none";
-        }
-    </script>
 </head>
 <body>
 <div th:fragment="sidebar">
-    <div class="d-flex flex-column p-3" style="width: 350px; height: 100vh; background-color: white; border-right: 1px solid #eee;">
+    <div th:if="${#authorization.expression('isAuthenticated()')}">
+        <div class="d-flex flex-column p-3"
+             style="width: 350px; height: 100vh; background-color: white; border-right: 1px solid #eee;">
 
-        <!-- Search -->
-        <form th:action="@{/search}" method="get" class="mb-4">
-            <div class="input-group">
-                <input type="text" name="keyword" class="form-control" placeholder="Search..." aria-label="Search">
-                <button class="btn btn-outline-secondary" type="submit">
-                    <i class="bi bi-search"></i>
-                </button>
-            </div>
-        </form>
-
-        <!-- MENU Section -->
-        <div class="mb-4">
-            <small class="text-muted text-uppercase">Menu</small>
-            <div class="mt-2">
-
-                <!-- Home Link -->
-                <a th:href="@{/home}" class="d-flex align-items-center mb-2 sidebar-link active-link">
-                    <i class="bi bi-house-door me-2"></i>
-                    <span>Home</span>
-                </a>
-
-                <!-- Tags Toggle -->
-                <div class="d-flex align-items-center mb-2 sidebar-link" onclick="toggleTags()" style="cursor: pointer;">
-                    <i class="bi bi-tags me-2"></i>
-                    <span>Tags</span>
-                    <i class="bi bi-chevron-down ms-auto"></i>
+            <!-- Search -->
+            <form th:action="@{/posts}" method="get" class="mb-4">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search for a buzz title..." aria-label="Search">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
+            </form>
 
-                <!-- Tag Links (hidden by default) -->
-                <div id="tagLinksContainer" style="display: none;" class="ms-4">
-                    <a th:href="@{/tags(tag='newborn')}" class="d-block sidebar-link mb-1">Newborn</a>
-                    <a th:href="@{/tags(tag='toddler')}" class="d-block sidebar-link mb-1">Toddler</a>
-                    <a th:href="@{/tags(tag='child')}" class="d-block sidebar-link mb-1">Child</a>
-                    <a th:href="@{/tags(tag='teen')}" class="d-block sidebar-link mb-1">Teenager</a>
-                    <a th:href="@{/tags(tag='youngadult')}" class="d-block sidebar-link mb-1">Young-Adult</a>
-                    <a th:href="@{/tags(tag='adult')}" class="d-block sidebar-link mb-1">Adult</a>
-                    <a th:href="@{/tags(tag='specialneeds')}" class="d-block sidebar-link mb-1">Special Needs</a>
+            <!-- MENU Section -->
+            <div class="mb-4">
+                <small class="text-muted text-uppercase">Menu</small>
+                <div class="mt-2">
+
+                    <!-- Home Link -->
+                    <a th:href="@{/home}" class="d-flex align-items-center mb-2 sidebar-link active-link">
+                        <i class="bi bi-house-door me-2"></i>
+                        <span>Home</span>
+                    </a>
+
+                    <!-- Categories Dropdown -->
+                    
+                    <div class="mb-3">
+                        <select class="form-select" id="sidebarCategorySelect" name="category" onchange="onCategorySelect(this.value)" th:value="${selectedTag}">
+                            <option disabled selected value="">All Categories</option>
+                            <option value="Newborn">Newborn</option>
+                            <option value="Toddler">Toddler</option>
+                            <option value="Child">Child</option>
+                            <option value="Teenager">Teenager</option>
+                            <option value="Young Adult">Young Adult</option>
+                            <option value="Adult">Adult</option>
+                            <option value="Special Needs">Special Needs</option>
+                        </select>
+                    </div>
+
+                    <!--                    &lt;!&ndash; Tags Toggle &ndash;&gt;-->
+<!--                    <div class="d-flex align-items-center mb-2 sidebar-link tag-toggle"-->
+<!--                         style="cursor: pointer;">-->
+<!--                    <i class="bi bi-tags me-2"></i>-->
+<!--                        <span>All Categories</span>-->
+<!--                        <i class="bi bi-chevron-down ms-auto"></i>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Tag Links (hidden by default) &ndash;&gt;-->
+<!--                    <div id="tagLinksContainer" style="display: none;" class="ms-4">-->
+<!--                        <a th:href="@{/tags(tag='newborn')}" class="d-block sidebar-link mb-1">Newborn</a>-->
+<!--                        <a th:href="@{/tags(tag='toddler')}" class="d-block sidebar-link mb-1">Toddler</a>-->
+<!--                        <a th:href="@{/tags(tag='child')}" class="d-block sidebar-link mb-1">Child</a>-->
+<!--                        <a th:href="@{/tags(tag='teen')}" class="d-block sidebar-link mb-1">Teenager</a>-->
+<!--                        <a th:href="@{/tags(tag='youngadult')}" class="d-block sidebar-link mb-1">Young-Adult</a>-->
+<!--                        <a th:href="@{/tags(tag='adult')}" class="d-block sidebar-link mb-1">Adult</a>-->
+<!--                        <a th:href="@{/tags(tag='specialneeds')}" class="d-block sidebar-link mb-1">Special Needs</a>-->
+<!--                    </div>-->
+
+                    <!-- Help Link -->
+                    <a th:href="@{/help}" class="d-flex align-items-center mb-2 sidebar-link">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <span>Help</span>
+                    </a>
                 </div>
-
-                <!-- Help Link -->
-                <a th:href="@{/help}" class="d-flex align-items-center mb-2 sidebar-link">
-                    <i class="bi bi-info-circle me-2"></i>
-                    <span>Help</span>
-                </a>
             </div>
-        </div>
 
-        <!-- PERSONAL NAVIGATOR Section -->
-        <div>
-            <small class="text-muted text-uppercase">Personal Navigator</small>
-            <div class="mt-2">
-                <a th:href="@{/questions}" class="d-flex align-items-center mb-2 sidebar-link">
-                    <i class="bi bi-question-circle me-2"></i>
-                    <span>Your questions</span>
-                </a>
-                <a th:href="@{/echoes}" class="d-flex align-items-center mb-2 sidebar-link">
-                    <i class="bi bi-chat-dots me-2"></i>
-                    <span>Your echoes</span>
-                </a>
-                <a th:href="@{/beliefs}" class="d-flex align-items-center mb-2 sidebar-link">
-                    <i class="bi bi-heart me-2"></i>
-                    <span>Your bee-lieves</span>
-                </a>
-                <a th:href="@{/reposts}" class="d-flex align-items-center mb-2 sidebar-link">
-                    <i class="bi bi-share me-2"></i>
-                    <span>Your reposts</span>
-                </a>
+            <!-- PERSONAL NAVIGATOR Section -->
+            <div>
+                <small class="text-muted text-uppercase">Personal Navigator</small>
+                <div class="mt-2">
+                    <a th:href="@{/questions}" class="d-flex align-items-center mb-2 sidebar-link">
+                        <i class="bi bi-question-circle me-2"></i>
+                        <span>Your questions</span>
+                    </a>
+                    <a th:href="@{/echoes}" class="d-flex align-items-center mb-2 sidebar-link">
+                        <i class="bi bi-chat-dots me-2"></i>
+                        <span>Your echoes</span>
+                    </a>
+                    <a th:href="@{/beliefs}" class="d-flex align-items-center mb-2 sidebar-link">
+                        <i class="bi bi-heart me-2"></i>
+                        <span>Your bee-lieves</span>
+                    </a>
+                    <a th:href="@{/reposts}" class="d-flex align-items-center mb-2 sidebar-link">
+                        <i class="bi bi-share me-2"></i>
+                        <span>Your reposts</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
 </body>
 </html>

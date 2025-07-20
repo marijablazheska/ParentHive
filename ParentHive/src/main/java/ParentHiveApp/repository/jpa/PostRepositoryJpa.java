@@ -11,7 +11,7 @@ import java.util.List;
 public interface PostRepositoryJpa extends JpaRepository<Post, Long> {
     Post getPostById(Long id);
     List<Post> findAllByTitleContainingIgnoreCase(String title);
-    List<Post> findAllByCategoryContainingIgnoreCase(String category);
+    List<Post> findAllByCategoryIgnoreCase(String category);
     List<Post> findAllByTitleContainingIgnoreCaseAndCategoryContainingIgnoreCase(String title, String category);
 //    Post getPostByTitleAndCategory(String title, List<String> category);
 
