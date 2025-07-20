@@ -11,7 +11,8 @@ public interface ReplyService {
 //    TODO
     Reply findById(long id);
 //    void save(String content);
-//    void delete(long id);
+    Reply updateReply(Long id, String Content);
+    void delete(long id);
     List<Reply> listReplies();
     List<Reply> listAllRepliesById(Long id);
     Reply createReply(String Content, Optional<User> user, Post post);
