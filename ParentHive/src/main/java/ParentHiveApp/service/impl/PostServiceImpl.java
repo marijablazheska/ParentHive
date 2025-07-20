@@ -98,6 +98,16 @@ public class PostServiceImpl implements PostService {
         oldPost.setContent(content);
         oldPost.setCategory(category);
 
+        if(content.contains("cochrane.org") || content.contains("embs.org") || content.contains("pubmed.ncbi.nlm.nih.gov")) {
+            if(oldPost.getUser().getProfessional()) {
+                oldPost.setPost_level(2);
+            } else {
+                oldPost.setPost_level(1);
+            }
+        } else {
+            oldPost.setPost_level(0);
+        }
+
         postRepositoryJpa.save(oldPost);
         return oldPost;
     }

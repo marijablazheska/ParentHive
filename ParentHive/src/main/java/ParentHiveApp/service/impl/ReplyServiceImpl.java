@@ -34,6 +34,16 @@ public class ReplyServiceImpl implements ReplyService {
 
         newReply.setContent(Content);
 
+        if(Content.contains("cochrane.org") || Content.contains("embs.org") || Content.contains("pubmed.ncbi.nlm.nih.gov")) {
+            if(newReply.getUser().getProfessional()) {
+                newReply.setPost_level(2);
+            } else {
+                newReply.setPost_level(1);
+            }
+        } else {
+            newReply.setPost_level(0);
+        }
+
         replyRepositoryJpa.save(newReply);
         return newReply;
     }
