@@ -55,9 +55,9 @@
                     </a>
 
                     <!-- Categories Dropdown -->
-                    
+
                     <div class="mb-3">
-                        <select class="form-select" id="sidebarCategorySelect" name="category" onchange="onCategorySelect(this.value)" th:value="${selectedTag}">
+                        <select class="form-select" onchange="window.location.href = `/tags?tag=${document.getElementById('sidebarCategorySelect').value}`;" id="sidebarCategorySelect">
                             <option disabled selected value="">All Categories</option>
                             <option value="Newborn">Newborn</option>
                             <option value="Toddler">Toddler</option>
