@@ -28,6 +28,7 @@
                 <div th:replace="fragments/postbox :: postbox(${post}, ${false})"></div>
 
                 <h2 class="m-5 mb-3 text-center text-secondary">Suggestions</h2>
+                <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
 
                 <div class="card p-3 m-1" id="replyBox" style="display: none">
                     <div class="container mt-4">

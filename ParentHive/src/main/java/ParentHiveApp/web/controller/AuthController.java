@@ -17,6 +17,7 @@ import ParentHiveApp.repository.jpa.UserRepositoryJpa;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,7 +41,8 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@ModelAttribute("registrationForm") @Valid UserRegistrationDto userDto,
                            BindingResult result,
-                           Model model) {
+                           Model model,
+                           RedirectAttributes redirectAttributes) {
         // Check if username or email already exists
         if (userService.existsByUsername(userDto.getUsername())) {
             result.rejectValue("username", null, "Username is already taken");
@@ -63,6 +65,7 @@ public class AuthController {
         }
 
         model.addAttribute("showParentSuccessModal", true);
+        redirectAttributes.addFlashAttribute("successMessage", "Registration successful! You may now log in.");
         return "redirect:/login";
     }
 }

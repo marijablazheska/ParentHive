@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -182,13 +183,14 @@ public class PostController {
 
     @PostMapping("/posts/addReply/{postId}")
     public String saveReply(@RequestParam String Content,
-                           @PathVariable Long postId, Model model
+                           @PathVariable Long postId, Model model,
+                            RedirectAttributes redirectAttributes
 
     ){
         Long userId = userService.getCurrentUserId();
         model.addAttribute("postId", postId);
         this.replyService.createReply(Content, userService.getUserById(userId), postService.getPostById(postId));
-
+        redirectAttributes.addFlashAttribute("successMessage", "Your suggestion has been posted successfully.");
         return "redirect:/posts/" + postId;
     }
 

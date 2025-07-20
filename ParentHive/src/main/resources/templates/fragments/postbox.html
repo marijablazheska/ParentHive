@@ -40,8 +40,8 @@
         <!-- Tags -->
         <div>
             <span class="tag-badge text-primary" th:text="${'['+post.category+']'}"></span>
-            <span class="text-primary" th:utext="${post.post_level == 2} ? '<br>Post by professional bee.'
-             : (${post.post_level == 1} ? '<br>Contains linked study.'
+            <span class="text-primary" th:utext="${post.post_level == 2} ? '<br><i class=\'bi bi-briefcase-fill\'></i>Post by professional bee.'
+             : (${post.post_level == 1} ? '<br><i class=\'bi bi-link\'></i>Contains linked study.'
              : '')"></span>
             <br>
             <span class="tag-badge text-secondary" th:text="${shortDisplay ? 'Read more...' : ''}"></span>
@@ -111,7 +111,7 @@
                 <!-- Username -->
                 <div class="username" th:text="${post.user.username}"></div>
                 <!-- Time Ago -->
-                <div class="time-ago" th:text="${''}"></div>
+                <div class="time-ago" th:text="${post.date}"></div>
             </div>
         </div>
         <!-- Three dots icon for options -->
@@ -124,8 +124,8 @@
     <!-- Tags and Stats Section -->
     <div class="d-flex justify-content-between align-items-center flex-wrap">
         <div>
-            <span class="text-primary" th:utext="${post.post_level == 2} ? '<br>Suggestion by a professional bee.'
-             : (${post.post_level == 1} ? '<br>Contains linked study.'
+            <span class="text-primary" th:utext="${post.post_level == 2} ? '<br><i class=\'bi bi-briefcase-fill\'></i>Suggestion by a professional bee.'
+             : (${post.post_level == 1} ? '<br><i class=\'bi bi-link\'></i>Contains linked study.'
              : '')"></span>
         </div>
         <!-- Stats (Comments, Upvotes, Downvotes) -->

@@ -2,6 +2,8 @@ package ParentHiveApp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 //class Reply{
 //    Id,
@@ -26,6 +28,7 @@ public class Reply {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
     private Integer post_level = 0;
+    private LocalDate date;
 
 
     public Reply(){
@@ -36,6 +39,7 @@ public class Reply {
         this.content = content;
         this.user = user;
         this.post = post;
+        this.date = LocalDateTime.now().toLocalDate();
 
         if(content.contains("cochrane.org") || content.contains("embs.org") || content.contains("pubmed.ncbi.nlm.nih.gov")) {
             if(user.getProfessional()) {
