@@ -106,11 +106,11 @@
 </div>
 
 <div th:fragment="replybox(post)" class="card p-3 m-1"
-     th:style="${post.post_level == 2} ? 'border-left: 10px solid rgba(41, 76, 140, 0.5);'
-     : (${post.post_level == 1} ? 'border-left: 10px solid rgba(68, 141, 102, 0.5);'
+     th:style="${reply.post_level == 2} ? 'border-left: 10px solid rgba(41, 76, 140, 0.5);'
+     : (${reply.post_level == 1} ? 'border-left: 10px solid rgba(68, 141, 102, 0.5);'
      : 'border-left: 10px solid rgba(255, 107, 0, 0.5);')"
-     th:title="${post.post_level == 2} ? 'This suggestion has been made by a child-care professional.'
-     : (${post.post_level == 1} ? 'This suggestion contains a linked study.'
+     th:title="${reply.post_level == 2} ? 'This suggestion has been made by a child-care professional.'
+     : (${reply.post_level == 1} ? 'This suggestion contains a linked study.'
      : '' )">
 
     <div class="d-flex align-items-center justify-content-between mb-3">
@@ -119,9 +119,9 @@
             <img src="https://placehold.co/40x40/cccccc/333333?text=User" alt="Profile" class="profile-img me-2">
             <div>
                 <!-- Username -->
-                <div class="username" th:text="${post.user.username}"></div>
+                <div class="username" th:text="${reply.user.username}"></div>
                 <!-- Time Ago -->
-                <div class="time-ago" th:text="${post.date}"></div>
+                <div class="time-ago" th:text="${reply.date}"></div>
             </div>
         </div>
         <!-- Three dots icon for options -->
