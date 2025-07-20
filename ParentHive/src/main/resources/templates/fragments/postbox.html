@@ -74,7 +74,16 @@
                 </form>
             </div>
             <!-- Repost -->
-            <div class="Interaction">
+            <div th:if="${user.repostedPosts.contains(post.id)}" class="Interaction">
+                <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
+                    <button type="submit" class="Interaction-Button bg-success" title="Repost">
+                        <i class="fa-solid fa-reply"></i>
+                        <span th:text="${post.repost}">0</span>
+                    </button>
+                </form>
+            </div>
+            <!-- Repost -->
+            <div th:if="${user.repostedPosts.contains(post.id) == false}" class="Interaction">
                 <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
                     <button type="submit" class="Interaction-Button" title="Repost">
                         <i class="fa-solid fa-reply"></i>
