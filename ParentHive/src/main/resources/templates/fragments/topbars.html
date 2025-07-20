@@ -167,22 +167,25 @@
             </a>
 
             <!-- Bell Icon -->
-            <a th:href="@{/notifications}" class="position-relative">
-                <i class="bi bi-bell fs-4"></i>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
-            </a>
+<!--            <a th:href="@{/notifications}" class="position-relative">-->
+<!--                <i class="bi bi-bell fs-4"></i>-->
+<!--                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>-->
+<!--            </a>-->
 
             <!-- Profile Dropdown -->
             <div class="profile-wrapper" id="profileMenu" th:if="${user !=null}">
-                <div class="profile-container" id="profileToggle">
-<!--                    <img th:src="" alt="Profile" class="profile-pic" />-->
-                    <img src="https://placehold.co/40x40/cccccc/333333?text=User" alt="Profile" class="profile-pic" />
-                    <span class="profile-name" th:text="${user.username}">Username</span>
-                    <span class="arrow-down">&#9662;</span>
-                </div>
+                <a th:href="@{/profile}">
+                    <div class="profile-container" id="profileToggle">
+                        <!--                    <img th:src="" alt="Profile" class="profile-pic" />-->
+                        <img src="https://placehold.co/40x40/cccccc/333333?text=User" alt="Profile" class="profile-pic" />
+                        <span class="profile-name" th:text="${user.username}">Username</span>
+                        <span class="arrow-down">&#9662;</span>
+                    </div>
+                </a>
+
 
                 <div class="dropdown-menu">
-                    <a th:href="@{/account}">My Account</a>
+                    <a th:href="@{/profile}">My Account</a>
                     <a th:href="@{/help}">Help Page</a>
                     <a th:href="@{/logout}">Log Out</a>
                 </div>

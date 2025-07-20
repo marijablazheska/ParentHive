@@ -108,4 +108,12 @@ public class Reply {
     public void setPost_level(Integer post_level) {
         this.post_level = post_level;
     }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 }
