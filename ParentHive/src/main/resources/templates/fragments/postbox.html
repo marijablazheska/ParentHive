@@ -85,7 +85,7 @@
             <!-- Report -->
             <div class="Interaction">
                 <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="GET">
-                    <button type="submit" class="Interaction-Button" title="Report post">
+                    <button type="submit" class="Interaction-Button text-warning" title="Report post">
                         <i class="fa-solid fa-flag"></i>
                     </button>
                 </form>
@@ -94,9 +94,8 @@
             <!-- Edit -->
             <div th:if="${post.getUser().getId() == user.getId()}" class="Interaction">
                 <form th:action="@{'/editPost/' + ${post.id}}" method="get">
-                    <button type="submit" class="Interaction-Button">
+                    <button type="submit" class="Interaction-Button text-primary" title="Edit your post">
                         <i class="fas fa-edit"></i>
-                        <span>Edit</span>
                     </button>
                 </form>
             </div>
@@ -105,7 +104,7 @@
 
 </div>
 
-<div th:fragment="replybox(post)" class="card p-3 m-1"
+<div th:fragment="replybox(reply)" class="card p-3 m-1"
      th:style="${reply.post_level == 2} ? 'border-left: 10px solid rgba(41, 76, 140, 0.5);'
      : (${reply.post_level == 1} ? 'border-left: 10px solid rgba(68, 141, 102, 0.5);'
      : 'border-left: 10px solid rgba(255, 107, 0, 0.5);')"
@@ -129,13 +128,13 @@
     </div>
 
     <!-- Post Content -->
-    <p class="post-content" th:text="${post.content}"></p>
+    <p class="post-content" th:text="${reply.content}"></p>
 
     <!-- Tags and Stats Section -->
     <div class="d-flex justify-content-between align-items-center flex-wrap">
         <div>
-            <span class="text-primary" th:utext="${post.post_level == 2} ? '<br><i class=\'bi bi-briefcase-fill\'></i>Suggestion by a professional bee.'
-             : (${post.post_level == 1} ? '<br><i class=\'bi bi-link\'></i>Contains linked study.'
+            <span class="text-primary" th:utext="${reply.post_level == 2} ? '<br><i class=\'bi bi-briefcase-fill\'></i>Suggestion by a professional bee.'
+             : (${reply.post_level == 1} ? '<br><i class=\'bi bi-link\'></i>Contains linked study.'
              : '')"></span>
         </div>
         <!-- Stats (Comments, Upvotes, Downvotes) -->
@@ -162,8 +161,8 @@
 
             <!-- Report -->
             <div class="Interaction">
-                <form th:action="@{'/posts/' + ${post.id} + '/report'}" method="GET">
-                    <button type="submit" class="Interaction-Button" title="Report suggestion">
+                <form th:action="@{'/posts/' + ${reply.id} + '/report'}" method="GET">
+                    <button type="submit" class="Interaction-Button text-warning" title="Report suggestion">
                         <i class="fa-solid fa-flag"></i>
                     </button>
                 </form>
@@ -172,9 +171,8 @@
             <!-- Edit -->
             <div th:if="${reply.getUser().getId() == user.getId()}" class="Interaction">
                 <form th:action="@{'/replies/edit/' + ${reply.id}}" method="get">
-                    <button type="submit" class="Interaction-Button">
+                    <button type="submit" class="Interaction-Button text-primary" title="Edit your suggestion">
                         <i class="fas fa-edit"></i>
-                        <span>Edit</span>
                     </button>
                 </form>
             </div>
