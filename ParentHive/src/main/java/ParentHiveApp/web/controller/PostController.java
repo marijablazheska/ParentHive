@@ -109,10 +109,10 @@ public class PostController {
         if(user.isPresent() && user.get().getPosts().contains(post)){
             this.postService.updatePost(postId, Title, Content, Category);
         } else {
-            return "redirect:/profile";
+            return "redirect:/posts/" + postId + "?error=failedToEditPost";
         }
 
-        return "redirect:/profile";
+        return "redirect:/posts/" + postId;
     }
 //  Get report page
     @GetMapping("/posts/{postId}/report")
@@ -232,7 +232,7 @@ public class PostController {
         } else { return "redirect:/echoes?error=invalidRequest"; }
 
 
-        return "redirect:/echoes";
+        return "redirect:/posts/" + reply.getPost().getId();
     }
 
     @PostMapping("/posts/{postId}/repost")
