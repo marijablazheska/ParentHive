@@ -113,7 +113,35 @@ public class PostServiceImpl implements PostService {
     }
     @Transactional
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
+        // Get the post first to verify it exists
+        Post post = postRepositoryJpa.getPostById(id);
+        
+        if (post == null) {
+            throw new IllegalArgumentException("Post not found");
+        }
+        
+        // Verify that the user owns the post
+        if (!post.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("You can only delete your own posts");
+        }
+        
+        // Clean up user interactions - remove this post from all users' interaction lists
+        List<User> allUsers = userRepositoryJpa.findAll();
+        for (User user : allUsers) {
+            if (user.getUpVotedPosts() != null) {
+                user.getUpVotedPosts().remove(id);
+            }
+            if (user.getDownVotedPosts() != null) {
+                user.getDownVotedPosts().remove(id);
+            }
+            if (user.getRepostedPosts() != null) {
+                user.getRepostedPosts().remove(id);
+            }
+        }
+        userRepositoryJpa.saveAll(allUsers);
+        
+        // Delete the post (replies will cascade delete automatically via CascadeType.REMOVE)
         postRepositoryJpa.deleteById(id);
     }
 

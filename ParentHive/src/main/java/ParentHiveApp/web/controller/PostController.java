@@ -89,6 +89,19 @@ public class PostController {
         return "redirect:/profile";
     }
 
+    @PostMapping("/deletePost/{postId}")
+    public String deletePost(Model model, @PathVariable Long postId
+    ) {
+        Long userId = userService.getCurrentUserId();
+
+        Post post = postService.getPostById(postId);
+        model.addAttribute("post", post);
+
+        this.postService.delete(postId, userId);
+
+        return "redirect:/profile";
+    }
+
     //  Get edit page
     @GetMapping("/editPost/{postId}")
     public String getEditPost(Model model, @PathVariable Long postId) {

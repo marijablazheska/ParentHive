@@ -152,6 +152,47 @@ body, html {
     gap: 4px;
 }
 
+.Interaction-Button {
+    padding: 8px 12px !important;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+    min-width: 50px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.Interaction-Button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.Interaction-Button.text-primary {
+    color: #007BFF;
+}
+
+.Interaction-Button.text-primary:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.Interaction-Button.text-warning {
+    color: #ffc107;
+}
+
+.Interaction-Button.text-warning:hover {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.Interaction-Button.bg-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.Interaction-Button.bg-success:hover {
+    background-color: #218838;
+}
+
 .Interaction form:hover,
 .Interaction a:hover{
     background-color: grey;

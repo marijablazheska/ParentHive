@@ -15,7 +15,7 @@ public interface PostService {
     List<Post> sortBy(String sortBy, List<Post> posts);
     Post createPost(String title, String content, String category, Optional<User> user); // Save
     Post updatePost(Long id, String title, String content, String category); // Save
-    void delete(Long id); // Delete
+    void delete(Long id, Long userId); // Delete - only owner can delete
     List<Post> listPosts();
     void upvotePost(Long postId, Optional<User> user);
     void downvotePost(Long postId, Optional<User> user);

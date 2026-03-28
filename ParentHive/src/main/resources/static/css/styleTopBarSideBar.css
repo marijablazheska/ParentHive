@@ -70,7 +70,7 @@ body {
 .arrow-down {
     font-size: 16px;
     color: #555;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s ease;
 }
 
 /* Rotate arrow when open */
@@ -148,4 +148,109 @@ body {
     border-left: 4px solid orange;
     color: orange;
     font-weight: 600;
+}
+
+/* Profile Dropdown Styles */
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    margin-right: 2px;
+}
+
+.profile-name {
+    font-weight: 500;
+    margin-right: 4px;
+}
+
+.arrow-down {
+    font-size: 16px;
+    color: #555;
+    transition: transform 0.5s ease;
+}
+
+.profile-container {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    padding: 5px 10px;
+}
+
+.profile-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Show dropdown on hover for desktop */
+.profile-wrapper:hover .dropdown-menu {
+    display: block;
+}
+
+/* Rotate arrow on hover */
+.profile-wrapper:hover .arrow-down {
+    transform: rotate(180deg);
+}
+
+/* Show the dropdown when wrapper has 'open' class (for click toggle) */
+.profile-wrapper.open .dropdown-menu {
+    display: block;
+}
+
+.profile-wrapper.open .arrow-down {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    display: none; /* hidden by default */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    margin-top: 8px;
+    min-width: 140px;
+    z-index: 100;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: black;
+    white-space: nowrap;
+    font-weight: normal;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-menu form {
+    display: block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: black;
+    white-space: nowrap;
+    font-weight: normal;
+}
+
+.dropdown-menu button {
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    color: black;
+    white-space: nowrap;
+    font-weight: normal;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+}
+
+.dropdown-menu button:hover {
+    background-color: #f0f0f0;
 }

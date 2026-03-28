@@ -38,7 +38,7 @@ public class Post {
     private Integer upvote = 0;
     private Integer downvote = 0;
     private Integer repost = 0;
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
     private String category;
     private LocalDate date;

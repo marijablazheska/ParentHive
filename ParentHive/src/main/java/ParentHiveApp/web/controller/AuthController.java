@@ -36,6 +36,9 @@ public class AuthController {
         return "login"; // maps to login.html in templates folder
     }
 
+    @PostMapping("/logout")
+    public String logoutPage() { return "login"; }
+
     @GetMapping("/register")
     public String registerForm(Model model) {
         model.addAttribute("registrationForm", new UserRegistrationDto());
