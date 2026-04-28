@@ -270,4 +270,16 @@ public class PostController {
         return "redirect:" + (referer != null ? referer : "/home");
     }
 
+    @PostMapping("/posts/{postId}/savePost")
+    public String savePost(@PathVariable Long postId,
+                         HttpServletRequest request) {
+        Long userId = userService.getCurrentUserId();
+        postService.savePost(postId, userService.getUserById(userId));
+        String referer = request.getHeader("Referer");
+
+        return "redirect:" + (referer != null ? referer : "/home");
+    }
+
+
+
 }

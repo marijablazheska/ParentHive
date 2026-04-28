@@ -28,8 +28,12 @@ public class PageController {
     @RequestMapping({ "/home", "/" })
     public String home(Model model) {
         //      list posts
-        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
-        user.ifPresent(userBap -> model.addAttribute("user", userBap));
+        try {
+            Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+            user.ifPresent(userBap -> model.addAttribute("user", userBap));
+        } catch (Exception e) {
+            // User is not authenticated, continue without user
+        }
         model.addAttribute("posts", postService.listPosts());
         return "home"; // will load resources/templates/home.html
     }
@@ -112,6 +116,19 @@ public class PageController {
 
         model.addAttribute("posts", postService.listPosts().stream()
                 .filter(i -> user.map(u -> u.getRepostedPosts().contains(i.getId())).orElse(false))
+                .collect(Collectors.toList()));
+
+        return "displayUserInfoSideBar"; // will load resources/templates/home.html
+    }
+
+    @GetMapping({ "/savedPosts"})
+    public String savedPosts(Model model) {
+        //      list posts
+        Optional<User> user = userService.getUserById(userService.getCurrentUserId());
+        user.ifPresent(userBap -> model.addAttribute("user", userBap));
+
+        model.addAttribute("posts", postService.listPosts().stream()
+                .filter(i -> user.map(u -> u.getSavedPosts().contains(i.getId())).orElse(false))
                 .collect(Collectors.toList()));
 
         return "displayUserInfoSideBar"; // will load resources/templates/home.html

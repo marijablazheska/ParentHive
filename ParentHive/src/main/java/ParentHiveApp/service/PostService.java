@@ -20,5 +20,5 @@ public interface PostService {
     void upvotePost(Long postId, Optional<User> user);
     void downvotePost(Long postId, Optional<User> user);
     void repostPost(Long postId, Optional<User> user);
-
+    void savePost(Long postId, Optional<User> user);
 }

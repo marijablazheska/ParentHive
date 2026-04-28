@@ -64,6 +64,30 @@ public class UserServiceImpl implements UserService {
     public boolean existsByEmail(String email) {
         return userRepositoryJpa.findByEmail(email).isPresent();
     }
+
+    @Override
+    public boolean updatePassword(Long id, String newPassword, String newConfPassword) {
+        if(newPassword.equals(newConfPassword)){
+            Optional<User> u = userRepositoryJpa.findById(id);
+            u.ifPresent(user -> user.setPassword(passwordEncoder.encode(newPassword)));
+            userRepositoryJpa.save(u.get());
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean deleteUser(Long id, String newPassword) {
+            User u = userRepositoryJpa.findById(id).get();
+            if(passwordEncoder.matches(newPassword, u.getPassword())){
+                userRepositoryJpa.deleteById(id);
+                return true;
+            } else {
+                return false;
+            }
+    }
 }
 
 

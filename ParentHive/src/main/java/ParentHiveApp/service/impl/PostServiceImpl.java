@@ -215,4 +215,17 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    @Override
+    public void savePost(Long postId, Optional<User> user) {
+        if(user.isPresent()) {
+            if(user.get().getSavedPosts().contains(postId)){
+                user.get().getSavedPosts().remove(postId);
+                userRepositoryJpa.save(user.get());
+            } else {
+                user.get().getSavedPosts().add(postId);
+                userRepositoryJpa.save(user.get());
+            }
+        }
+    }
+
 }

@@ -48,6 +48,42 @@
         </div>
         <!-- Stats (Comments, Upvotes, Downvotes) -->
         <div class="d-flex align-items-center mt-2 mt-sm-0">
+            <!-- Upvotes hasn't liked -->
+            <div th:if="${user != null && !user.upVotedPosts.contains(post.id)}" class="Interaction">
+                <form th:action="@{'/posts/' + ${post.id} + '/upvote'}" method="post">
+                    <button type="submit" class="Interaction-Button" title="Upvote post">
+                        <i class="bi bi-heart"></i>
+                        <span class="stats-number" th:text="${post.upvote}"></span>
+                    </button>
+                </form>
+            </div>
+            <!-- Upvotes has liked -->
+            <div th:if="${user != null && user.upVotedPosts.contains(post.id)}" class="Interaction">
+                <form th:action="@{'/posts/' + ${post.id} + '/upvote'}" method="post">
+                    <button type="submit" class="Interaction-Button" title="Upvote post">
+                        <i class="bi bi-heart-fill"></i>
+                        <span class="stats-number" th:text="${post.upvote}"></span>
+                    </button>
+                </form>
+            </div>
+            <!-- Downvotes hasn't disliked -->
+            <div th:if="${user != null && !user.downVotedPosts.contains(post.id)}" class="Interaction">
+                <form th:action="@{'/posts/' + ${post.id} + '/downvote'}" method="post">
+                    <button type="submit" class="Interaction-Button" title="Downvote post">
+                        <i class="bi bi-heartbreak"></i>
+                        <span class="stats-number" th:text="${post.downvote}"></span>
+                    </button>
+                </form>
+            </div>
+            <!-- Downvotes has disliked -->
+            <div th:if="${user != null && user.downVotedPosts.contains(post.id)}" class="Interaction">
+                <form th:action="@{'/posts/' + ${post.id} + '/downvote'}" method="post">
+                    <button type="submit" class="Interaction-Button" title="Downvote post">
+                        <i class="bi bi-heartbreak-fill"></i>
+                        <span class="stats-number" th:text="${post.downvote}"></span>
+                    </button>
+                </form>
+            </div>
             <!-- Comments -->
             <div class="Interaction">
                 <button onclick="toggleVisibility('replyBox', 'replyBoxButton')" class="Interaction-Button" title="Reply with suggestion">
@@ -55,38 +91,37 @@
                     <span class="stats-number" th:text="${post.replies.size()}"></span>
                 </button>
             </div>
-            <!-- Upvotes -->
-            <div class="Interaction">
-                <form th:action="@{'/posts/' + ${post.id} + '/upvote'}" method="post">
-                    <button type="submit" class="Interaction-Button" title="Upvote post">
-                        <i class="fas fa-arrow-up stats-icon"></i>
-                        <span class="stats-number" th:text="${post.upvote}"></span>
+            <!-- Save post not saved-->
+            <div th:if="${user != null && !user.SavedPosts.contains(post.id)}" class="Interaction">
+                <form th:action="@{'/posts/' + ${post.id} + '/savePost'}" method="post">
+                    <button type="submit" class="Interaction-Button" title="Save post">
+                        <i class="bi bi-bookmark"></i>
                     </button>
                 </form>
             </div>
-            <!-- Downvotes -->
-            <div class="Interaction">
-                <form th:action="@{'/posts/' + ${post.id} + '/downvote'}" method="post">
-                    <button type="submit" class="Interaction-Button" title="Downvote post">
-                        <i class="fas fa-arrow-down stats-icon"></i>
-                        <span class="stats-number" th:text="${post.downvote}"></span>
+            <!-- Save post saved-->
+            <div th:if="${user != null && user.SavedPosts.contains(post.id)}" class="Interaction">
+                <form th:action="@{'/posts/' + ${post.id} + '/savePost'}" method="post">
+                    <button type="submit" class="Interaction-Button" title="Save post">
+                        <i class="bi bi-bookmark-fill"></i>
                     </button>
                 </form>
             </div>
-            <!-- Repost -->
-            <div th:if="${user.repostedPosts.contains(post.id)}" class="Interaction">
+            <!-- Repost user has reposted alr-->
+            <div th:if="${user != null && user.repostedPosts.contains(post.id)}" class="Interaction">
                 <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
                     <button type="submit" class="Interaction-Button" title="Repost">
-                        <i class="fa-solid fa-reply"></i>
+
+                        <i class="bi bi-share-fill"></i>
                         <span th:text="${post.repost}">0</span>
                     </button>
                 </form>
             </div>
-            <!-- Repost -->
-            <div th:if="${user.repostedPosts.contains(post.id) == false}" class="Interaction">
+            <!-- Repost user hasn't reposted-->
+            <div th:if="${user != null && user.repostedPosts.contains(post.id) == false}" class="Interaction">
                 <form th:action="@{'/posts/' + ${post.id} + '/repost'}" method="post">
                     <button type="submit" class="Interaction-Button" title="Repost">
-                        <i class="fa-solid fa-reply"></i>
+                        <i class="bi bi-share"></i>
                         <span th:text="${post.repost}">0</span>
                     </button>
                 </form>
@@ -101,7 +136,7 @@
             </div>
 
             <!-- Edit -->
-            <div th:if="${post.getUser().getId() == user.getId()}" class="Interaction">
+            <div th:if="${user != null && post.getUser().getId() == user.getId()}" class="Interaction">
                 <form th:action="@{'/editPost/' + ${post.id}}" method="get">
                     <button type="submit" class="Interaction-Button text-primary" title="Edit your post">
                         <i class="fas fa-edit"></i>
@@ -110,7 +145,7 @@
             </div>
 
             <!-- Delete -->
-            <div th:if="${post.getUser().getId() == user.getId()}" class="Interaction">
+            <div th:if="${user != null && post.getUser().getId() == user.getId()}" class="Interaction">
                 <button type="button" class="Interaction-Button text-primary" title="Delete your post"
                     onclick="if(event) event.stopPropagation(); if(confirm('Are you sure you want to delete this post?')) document.getElementById('deletePostForm').submit(); return false;">
                     <i class="fa fa-trash"></i>
@@ -158,21 +193,39 @@
         </div>
         <!-- Stats (Comments, Upvotes, Downvotes) -->
         <div class="d-flex align-items-center mt-2 mt-sm-0">
-            <!-- Upvote -->
-            <div class="Interaction">
+            <!-- Upvote hasn't upvoted -->
+            <div th:if="${user != null && !user.upVotedReplies.contains(reply.id)}" class="Interaction">
                 <form th:action="@{'/replies/' + ${reply.id} + '/upvote'}" method="post">
                     <button type="submit" class="Interaction-Button" title="Upvote suggestion">
-                        <i class="fa-solid fa-up-long"></i>
+                        <i class="bi bi-heart"></i>
+                        <span th:text="${reply.upvote}">0</span>
+                    </button>
+                </form>
+            </div>
+            <!-- Upvote has upvoted -->
+            <div th:if="${user != null && user.upVotedReplies.contains(reply.id)}" class="Interaction">
+                <form th:action="@{'/replies/' + ${reply.id} + '/upvote'}" method="post">
+                    <button type="submit" class="Interaction-Button" title="Upvote suggestion">
+                        <i class="bi bi-heart-fill"></i>
                         <span th:text="${reply.upvote}">0</span>
                     </button>
                 </form>
             </div>
 
-            <!-- Downvote -->
-            <div class="Interaction">
+            <!-- Downvote hasn't downvoted-->
+            <div th:if="${user != null && !user.downVotedReplies.contains(reply.id)}" class="Interaction">
                 <form th:action="@{'/replies/' + ${reply.id} + '/downvote'}" method="post">
                     <button type="submit" class="Interaction-Button" title="Downvote suggestion">
-                        <i class="fa-solid fa-down-long"></i>
+                        <i class="bi bi-heartbreak"></i>
+                        <span th:text="${reply.downvote}">0</span>
+                    </button>
+                </form>
+            </div>
+            <!-- Downvote has downvoted-->
+            <div th:if="${user != null && user.downVotedReplies.contains(reply.id)}" class="Interaction">
+                <form th:action="@{'/replies/' + ${reply.id} + '/downvote'}" method="post">
+                    <button type="submit" class="Interaction-Button" title="Downvote suggestion">
+                        <i class="bi bi-heartbreak-fill"></i>
                         <span th:text="${reply.downvote}">0</span>
                     </button>
                 </form>
@@ -188,7 +241,7 @@
             </div>
 
             <!-- Edit -->
-            <div th:if="${reply.getUser().getId() == user.getId()}" class="Interaction">
+            <div th:if="${user != null && reply.getUser().getId() == user.getId()}" class="Interaction">
                 <form th:action="@{'/replies/edit/' + ${reply.id}}" method="get">
                     <button type="submit" class="Interaction-Button text-primary" title="Edit your suggestion">
                         <i class="fas fa-edit"></i>
