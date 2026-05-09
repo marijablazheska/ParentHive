@@ -146,7 +146,7 @@
 
             <!-- Delete -->
             <div th:if="${user != null && post.getUser().getId() == user.getId()}" class="Interaction">
-                <button type="button" class="Interaction-Button text-primary" title="Delete your post"
+                <button type="button" class="Interaction-Button text-danger" title="Delete your post"
                     onclick="if(event) event.stopPropagation(); if(confirm('Are you sure you want to delete this post?')) document.getElementById('deletePostForm').submit(); return false;">
                     <i class="fa fa-trash"></i>
                 </button>
