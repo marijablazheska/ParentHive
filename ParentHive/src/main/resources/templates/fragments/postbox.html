@@ -7,13 +7,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-<div th:fragment="postbox(post, shortDisplay)" th:onclick="'location.href=\'/posts/' + ${post.id} + '\''" class="flex card p-3 m-1 w-100 col-12"
+<div th:fragment="postbox(post, shortDisplay)" th:onclick="'window.location.href=\'/posts/' + ${post.id} + '\''" class="flex card p-3 m-1 w-100 col-12 position-relative" style="cursor:pointer;"
      th:style="${post.post_level == 2} ? 'border-left: 10px solid rgba(41, 76, 140, 0.5);'
      : (${post.post_level == 1} ? 'border-left: 10px solid rgba(68, 141, 102, 0.5);'
      : 'border-left: 10px solid rgba(255, 107, 0, 0.5);')"
      th:title="${post.post_level == 2} ? 'This post has been made by a child-care professional.'
      : (${post.post_level == 1} ? 'This post contains a linked study.'
      : '' )">
+
     <div class="d-flex align-items-center justify-content-between mb-3 w-100">
         <div class="d-flex align-items-center">
             <!-- Profile Image -->
@@ -25,8 +26,6 @@
                 <div class="time-ago" th:text="${post.date}"></div>
             </div>
         </div>
-        <!-- Three dots icon for options -->
-        <i class="fas fa-ellipsis-h stats-icon"></i>
     </div>
 
     <!-- Post Title -->

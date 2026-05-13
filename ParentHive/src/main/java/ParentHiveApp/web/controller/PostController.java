@@ -250,7 +250,7 @@ public class PostController {
 
         Reply reply = replyService.findById(replyId);
         model.addAttribute("reply", reply);
-        if (reply.getUser().getId() == user.get().getId()) {
+        if (reply.getUser().getId().equals(user.get().getId())) {
             this.replyService.updateReply(replyId, Content);
         } else {
             return "redirect:/echoes?error=invalidRequest";
