@@ -55,6 +55,7 @@
                     </h5>
 
                     <button class="btn btn-warning"
+                            id="generateSummaryButton"
                             onclick="event.stopPropagation(); generateSummary();">
                         Generate Summary
                     </button>
@@ -125,8 +126,9 @@
     }, true);
 
     async function generateSummary() {
-        const title   = document.getElementById("postTitle").textContent.trim();
-        const content = document.getElementById("postContent").value.trim();
+        const generateButton = document.getElementById("generateSummaryButton");
+         const title   = document.getElementById("postTitle").textContent.trim();
+         const content = document.getElementById("postContent").value.trim();
 
         // Collect all reply texts from the page
         const replyNodes = document.querySelectorAll(".reply-content");
@@ -140,6 +142,9 @@
 
         const summaryBox = document.getElementById("summaryBox");
         summaryBox.textContent = "Generating summary...";
+        if (generateButton) {
+            generateButton.disabled = true;
+        }
 
         const csrfToken  = document.querySelector('meta[name="_csrf"]').content;
         const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
@@ -155,16 +160,62 @@
             });
 
             if (!response.ok) {
-                summaryBox.textContent = "Failed to generate summary (server error " + response.status + ").";
+                if (response.status === 429) {
+                    const retryAfterHeader = response.headers.get("Retry-After");
+                    const retrySeconds = retryAfterHeader ? parseInt(retryAfterHeader, 10) : 60;
+                    startCooldown(Math.max(5, isNaN(retrySeconds) ? 60 : retrySeconds));
+                } else if (response.status === 503) {
+                    summaryBox.textContent = "AI summary is not configured.";
+                    if (generateButton) {
+                        generateButton.disabled = false;
+                    }
+                } else {
+                    summaryBox.textContent = "Failed to generate summary (server error " + response.status + ").";
+                    if (generateButton) {
+                        generateButton.disabled = false;
+                    }
+                }
                 return;
             }
 
             summaryBox.textContent = await response.text();
+            if (generateButton) {
+                generateButton.disabled = false;
+            }
 
         } catch (error) {
             summaryBox.textContent = "Failed to generate summary.";
             console.error(error);
+            if (generateButton) {
+                generateButton.disabled = false;
+            }
         }
+    }
+
+    function startCooldown(seconds) {
+        const summaryBox = document.getElementById("summaryBox");
+        const generateButton = document.getElementById("generateSummaryButton");
+        let remaining = seconds;
+        summaryBox.textContent = "Too many requests. Try again in " + remaining + "s.";
+        if (generateButton) {
+            generateButton.disabled = true;
+        }
+        if (window.summaryCooldownTimer) {
+            clearInterval(window.summaryCooldownTimer);
+        }
+        window.summaryCooldownTimer = setInterval(() => {
+            remaining -= 1;
+            if (remaining <= 0) {
+                clearInterval(window.summaryCooldownTimer);
+                window.summaryCooldownTimer = null;
+                summaryBox.textContent = "You can generate a summary again.";
+                if (generateButton) {
+                    generateButton.disabled = false;
+                }
+                return;
+            }
+            summaryBox.textContent = "Too many requests. Try again in " + remaining + "s.";
+        }, 1000);
     }
 </script>
 

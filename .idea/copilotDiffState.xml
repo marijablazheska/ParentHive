@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="/RateLimitException (snapshot).java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="/RateLimitException (snapshot).java" />
+              <option name="originalContent" value="package ParentHiveApp.service;&#10;&#10;public class RateLimitException extends RuntimeException {&#10;    public RateLimitException(String message) {&#10;        super(message);&#10;    }&#10;}&#10;&#10;" />
+              <option name="updatedContent" value="package ParentHiveApp.service;&#10;&#10;public class RateLimitException extends RuntimeException {&#10;    private final Integer retryAfterSeconds;&#10;&#10;    public RateLimitException(String message) {&#10;        super(message);&#10;        this.retryAfterSeconds = null;&#10;    }&#10;&#10;    public RateLimitException(String message, Integer retryAfterSeconds) {&#10;        super(message);&#10;        this.retryAfterSeconds = retryAfterSeconds;&#10;    }&#10;&#10;    public Integer getRetryAfterSeconds() {&#10;        return retryAfterSeconds;&#10;    }&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
