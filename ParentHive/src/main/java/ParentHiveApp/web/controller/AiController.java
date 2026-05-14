@@ -1,6 +1,7 @@
 package ParentHiveApp.web.controller;
 
 import ParentHiveApp.dto.AiSummaryDto;
+import ParentHiveApp.dto.ChatMessageDto;
 import ParentHiveApp.service.GeminiService;
 import ParentHiveApp.service.RateLimitException;
 
@@ -38,6 +39,20 @@ public class AiController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to generate summary.");
+        }
+    }
+
+    @PostMapping("/chat")
+    public ResponseEntity<String> chat(@RequestBody ChatMessageDto request) {
+        try {
+            String reply = geminiService.chat(request.getMessage(), request.getHistory());
+            return ResponseEntity.ok(reply);
+        } catch (RateLimitException e) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body("Rate limit reached. Please wait a moment.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to get a response.");
         }
     }
 }

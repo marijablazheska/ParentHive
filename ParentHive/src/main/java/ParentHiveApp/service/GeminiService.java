@@ -1,5 +1,6 @@
 package ParentHiveApp.service;
 
+import ParentHiveApp.dto.ChatMessageDto;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
+import java.util.List;
 
 @Service
 public class GeminiService {
@@ -86,6 +88,74 @@ public class GeminiService {
             System.err.println("=== Gemini unexpected error ===");
             e.printStackTrace();
             return "Failed to generate summary.";
+        }
+    }
+
+    public String chat(String userMessage, List<ChatMessageDto.Turn> history) {
+        ensureApiKeyLoaded();
+
+        String url = "https://generativelanguage.googleapis.com/v1beta/models/" + modelName
+                + ":generateContent?key=" + apiKey;
+
+        try {
+            com.fasterxml.jackson.databind.node.ArrayNode contents = mapper.createArrayNode();
+
+            // System context — give the bot a persona relevant to ParentHive
+            ObjectNode systemTurn = mapper.createObjectNode();
+            systemTurn.put("role", "user");
+            systemTurn.putArray("parts").addObject().put("text",
+                    "You are a helpful parenting assistant on ParentHive, a forum for parents and professionals. " +
+                            "Give warm, practical, evidence-based advice. Keep answers concise.");
+            contents.add(systemTurn);
+
+            // Add a model acknowledgement so Gemini accepts the system turn
+            ObjectNode systemAck = mapper.createObjectNode();
+            systemAck.put("role", "model");
+            systemAck.putArray("parts").addObject().put("text", "Understood! I'm here to help.");
+            contents.add(systemAck);
+
+            // Add conversation history so Gemini remembers what was said
+            if (history != null) {
+                for (ChatMessageDto.Turn turn : history) {
+                    ObjectNode turnNode = mapper.createObjectNode();
+                    turnNode.put("role", turn.getRole());
+                    turnNode.putArray("parts").addObject().put("text", turn.getText());
+                    contents.add(turnNode);
+                }
+            }
+
+            // Add the new user message
+            ObjectNode userTurn = mapper.createObjectNode();
+            userTurn.put("role", "user");
+            userTurn.putArray("parts").addObject().put("text", userMessage);
+            contents.add(userTurn);
+
+            ObjectNode body = mapper.createObjectNode();
+            body.set("contents", contents);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> entity = new HttpEntity<>(mapper.writeValueAsString(body), headers);
+
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+            JsonNode root = mapper.readTree(response.getBody());
+            return root
+                    .path("candidates").get(0)
+                    .path("content")
+                    .path("parts").get(0)
+                    .path("text")
+                    .asText("I couldn't generate a response.");
+
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS) {
+                throw new RateLimitException("Too many requests. Please try again in a moment.", null);
+            }
+            LOGGER.error("Gemini chat API error: {} — {}", e.getStatusCode(), e.getResponseBodyAsString());
+            return "Sorry, I ran into an error. Please try again.";
+        } catch (Exception e) {
+            LOGGER.error("Gemini chat unexpected error", e);
+            return "Sorry, something went wrong.";
         }
     }
 
