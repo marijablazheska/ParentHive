@@ -1,0 +1,71 @@
+name: Build and deploy JAR app to Azure Web App - ParentHive
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+
+    defaults:
+      run:
+        working-directory: ./ParentHive
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java version
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'microsoft'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      # This step removes the "plain" jar so Azure doesn't get confused
+      - name: Clean up secondary JARs
+        run: |
+          if (Test-Path "./target/*-plain.jar") {
+            Remove-Item "./target/*-plain.jar"
+          }
+        shell: pwsh
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app
+          # Only one JAR should remain now
+          path: './ParentHive/target/*.jar'
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: java-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'ParentHive'
+          slot-name: 'Production'
+          # Since the artifact is downloaded to the current dir, just look for the jar here
+          package: '.' 
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_5CEBEB9ED7714B53A15007A35C529AD4 }}
